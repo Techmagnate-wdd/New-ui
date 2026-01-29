@@ -1,0 +1,110 @@
+/* ProjectsMultiSelect.css */
+
+/* Container holds the input‐style box and dropdown */
+.projects-multiselect {
+  position: relative;
+  width: 100%;
+  font-family: inherit;
+}
+
+/* Disabled state */
+.projects-multiselect.disabled .select-input {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+}
+
+/* The “input” that you click to open */
+.select-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  background-color: #ffffff;
+  cursor: pointer;
+  min-height: 2.4rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.select-input:hover {
+  border-color: #86b7fe;
+}
+
+.select-input.open {
+  border-color: #2563eb; /* blue outline when open */
+  box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+}
+
+/* Placeholder text */
+.placeholder {
+  color: #6c757d;
+}
+
+/* Container for the little “tags” */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+/* Each tag pill */
+.tag-item {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+/* Chevron icon on the right */
+.chevron-icon {
+  font-size: 1.125rem;
+  color: #6c757d;
+}
+
+/* The dropdown list */
+.options-dropdown {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  left: 0;
+  right: 0;
+  max-height: 12rem;
+  overflow-y: auto;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  background-color: #ffffff;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+/* “No options” message */
+.no-options {
+  padding: 0.75rem;
+  color: #6c757d;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* Each option row with checkbox */
+.option-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.option-item:hover {
+  background-color: #f8f9fa;
+}
+
+/* Hide the native checkbox, then style a custom one if desired */
+.option-item input[type="checkbox"] {
+  margin-right: 0.5rem;
+  accent-color: #0d6efd; /* Blue checkbox accent */
+}
+
+.option-label {
+  flex: 1;
+}

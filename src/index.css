@@ -1,0 +1,229 @@
+/* 1) Reset the root and body */
+html {
+  font-size: 14px;
+  /* 14px base */
+  line-height: 1.5;
+  /* ≈21px lines */
+}
+
+body {
+  font-size: 1rem;
+  /* inherit 14px */
+  line-height: inherit;
+}
+
+/* 2) Shrink headings */
+h1 {
+  font-size: 2rem;
+}
+
+/* 28px */
+h2 {
+  font-size: 1.75rem;
+}
+
+/* 24.5px */
+h3 {
+  font-size: 1.5rem;
+}
+
+/* 21px */
+h4 {
+  font-size: 1.25rem;
+}
+
+/* 17.5px */
+h5 {
+  font-size: 1rem;
+}
+
+/* 14px */
+h6 {
+  font-size: 0.875rem;
+}
+
+/* 12.25px */
+
+/* 3) Override common Bootstrap elements */
+.form-label,
+.form-control,
+.table,
+.btn,
+.card,
+.navbar,
+.modal-content,
+.sidebar,
+.project-dashboard {
+  /* your own wrapper */
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+}
+
+/* 4) Override Ant Design components (if still in play) */
+.ant-typography,
+.ant-btn,
+.ant-input,
+.ant-select-selector,
+.ant-table,
+.ant-card,
+.ant-modal-content,
+.ant-space {
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+}
+
+.sidebar {
+  width: 16%;
+  z-index: 99
+}
+
+
+@media (max-width: 767px) {
+  .sidebar {
+    width: 50%;
+    z-index: 99
+  }
+}
+
+
+
+/* .dashboard-main {
+  margin-left: 230px !important;
+} */
+.sidebar-menu-area {
+  padding: 1rem 1rem;
+}
+
+/* decrease desktop display end  */
+
+.custom-table .ant-pagination {
+  display: flex !important;
+  justify-content: flex-end !important;
+  margin-top: 15px !important;
+  padding-bottom: 20px !important;
+}
+
+/* 2) Give each page item a small horizontal margin so they’re not jammed together */
+.custom-table .ant-pagination-item {
+  margin: 0 4px;
+  /* space between each <li> */
+}
+
+/* 3) Target the <a> inside each page-number <li> to give padding and a default color */
+.custom-table .ant-pagination-item a {
+  display: inline-block;
+  padding: 6px 11px;
+  /* left/right padding for each page link */
+  line-height: 24px;
+  /* ensures vertical centering */
+  color: #497fff;
+  /* default text color (blue) */
+  border-radius: 4px;
+  /* round the corners a bit */
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+/* 4) Hover state on non-active pages: light blue background, darker text */
+.custom-table .ant-pagination-item a:hover {
+  background-color: rgba(73, 127, 255, 0.1);
+  color: #497fff;
+}
+
+/* 5) Style the active page-number as a filled blue box with white text */
+.custom-table .ant-pagination-item-active a {
+  background-color: #497fff !important;
+  /* your blue */
+  color: #ffffff !important;
+  /* white text */
+  border-radius: 4px !important;
+  padding: 4px 12px !important;
+  /* keep same horizontal padding */
+  margin-top: 3px !important;
+  /* keep same horizontal padding */
+}
+
+/* 6) Remove the default border around the active <li> so it doesn’t show a grey outline */
+.custom-table .ant-pagination-item-active {
+  border: none !important;
+}
+
+/* 7) Style the “Prev” & “Next” arrow buttons to match the page items */
+.custom-table .ant-pagination-prev .ant-pagination-item-link,
+.custom-table .ant-pagination-next .ant-pagination-item-link {
+  margin: 0 4px;
+  /* same horizontal spacing */
+  display: inline-flex;
+  /* keep arrows aligned with numbers */
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  /* square box for arrow */
+  height: 32px;
+  border-radius: 4px;
+  background-color: transparent;
+  transition: background 0.2s;
+}
+
+.custom-table .ant-pagination-prev .ant-pagination-item-link:hover,
+.custom-table .ant-pagination-next .ant-pagination-item-link:hover {
+  background-color: rgba(73, 127, 255, 0.1);
+}
+
+/* 8) Style the ellipsis “…” so it matches size and color */
+.custom-table .ant-pagination-item-ellipsis {
+  margin: 0 4px;
+  /* same spacing as other <li> */
+  color: #333;
+  /* dark grey, so it’s visible but subtle */
+  font-size: 14px;
+  line-height: 32px;
+  /* vertically center inside the 32px height */
+}
+
+/* 9) If you want to explicitly hide the default border around all page items: */
+.custom-table .ant-pagination-item,
+.custom-table .ant-pagination-prev .ant-pagination-item-link,
+.custom-table .ant-pagination-next .ant-pagination-item-link {
+  border: none !important;
+}
+
+/* 10) Ensure disabled arrows (when on first/last page) appear “grayed out” */
+.custom-table .ant-pagination-disabled .ant-pagination-item-link {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.anticon svg {
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.custom-table .ant-pagination-item,
+.custom-table .ant-pagination-prev .ant-pagination-item-link,
+.custom-table .ant-pagination-next .ant-pagination-item-link {
+  border: none !important;
+  padding-bottom: 7px !important;
+}
+
+.custom-table .ant-pagination-item,
+.custom-table .ant-pagination-prev .ant-pagination-item-link,
+.custom-table .ant-pagination-next .ant-pagination-item-link {
+  border: none !important;
+  padding-bottom: 2px !important;
+}
+
+.d-footer {
+  width: 84%;
+  padding: 12px 20px;
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
+}
+
+.table-rank .child-row {
+  background-color: #f8f9fa;
+}
+
+.table-rank .child-row td {
+  padding-left: 40px;
+}

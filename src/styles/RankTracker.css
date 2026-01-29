@@ -1,0 +1,50 @@
+/* project-dashboard.css */
+
+/* Adjust the card border color or background if you want a lighter blue hover */
+.project-dashboard .card {
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0; /* light gray border by default */
+}
+
+/* Make the Filter Card’s label a bit smaller and bolder */
+.project-dashboard .form-label {
+  font-size: 0.875rem;
+  color: #4a4a4a;
+}
+
+/* Optionally override the btn-outline-primary hover to match your sky-blue */
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  background-color: #e0f7ff;
+  border-color: #5bc0de;
+  color: #0056b3;
+}
+
+/* If you want the “Rank Tracker” header to stand out more on a white background */
+.project-dashboard h2 {
+  color: #1f2937; /* dark slate color */
+}
+
+/* If you need to tweak the table’s header color */
+.custom-table .ant-table-thead > tr > th {
+  background-color: #f8fafc; /* very light gray/blue */
+  color: #333;
+  font-weight: 600;
+}
+
+/* Ensure the Search inputs and labels stack nicely on small screens */
+@media (max-width: 767px) {
+  .project-dashboard .form-label {
+    margin-bottom: 0.25rem;
+  }
+}
+/* project-dashboard.css (or your global CSS) */
+
+.dragscroll {
+  overflow-x: auto;      /* must still allow native scrolling */
+  cursor: grab;          /* show a “grab” hand */
+}
+
+.dragscroll:active {
+  cursor: grabbing;      /* when the user holds down the mouse */
+}

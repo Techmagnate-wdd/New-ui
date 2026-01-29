@@ -1,0 +1,166 @@
+/* 1) the little +/- icon cell */
+.ant-table-row-expand-icon-cell {
+  /* same width AntD uses — you can tweak */
+  width: 48px;
+  text-align: center;
+}
+
+/* 2) the icon itself (rotates when expanded) */
+.ant-table-row-expand-icon {
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.ant-table-row-expanded .ant-table-row-expand-icon {
+  transform: rotate(90deg);
+}
+
+/* 3) the expanded row wrapper */
+.ant-table-expanded-row {
+  background: #fafafa;   /* light grey background */
+}
+.ant-table-expanded-row > td {
+  padding: 16px 24px;
+  border-bottom: none;
+}
+
+/* 4) indent levels (if you’ve got nested children) */
+.ant-table-expanded-row-level-0    { /* level-0 padding */ }
+.ant-table-expanded-row-level-1    { /* level-1 padding */ }
+/* …etc… */
+
+
+
+/* body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Open Sans', sans-serif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+/* Increase modal close button size */
+/* .ant-modal-close-x {
+  font-size: 15px !important;
+  width: 35px !important;
+  height: 35px !important;
+  text-align: center  !important;
+  line-height: 40px !important;
+  background-color: transparent !important;
+  color: #fff !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  cursor: pointer !important;
+  position: absolute !important;
+  top: 5px !important;
+  right: 5px !important;
+  background-color: #2980b9 !important;
+}
+  */
+
+/* 1) Right‐align the pagination under each .custom-table */
+/* 1) Force the pagination container to the right, with some top margin */
+
+
+.custom-table .ant-pagination {
+  display: flex !important;
+  justify-content: flex-end !important;
+  margin-top: 15px !important;
+  padding-bottom:20px !important
+}
+
+/* 2) Give each page item a small horizontal margin so they’re not jammed together */
+.custom-table .ant-pagination-item {
+  margin: 0 4px;               /* space between each <li> */
+}
+
+/* 3) Target the <a> inside each page-number <li> to give padding and a default color */
+.custom-table .ant-pagination-item a {
+  display: inline-block;
+  padding: 6px 11px;              /* left/right padding for each page link */
+  line-height: 24px;           /* ensures vertical centering */
+  color: #497fff;              /* default text color (blue) */
+  border-radius: 4px;          /* round the corners a bit */
+  transition: background 0.2s;
+  cursor:pointer
+}
+
+/* 4) Hover state on non-active pages: light blue background, darker text */
+.custom-table .ant-pagination-item a:hover {
+  background-color: rgba(73, 127, 255, 0.1);
+  color: #497fff;
+}
+
+/* 5) Style the active page-number as a filled blue box with white text */
+.custom-table .ant-pagination-item-active a {
+  background-color: #497fff !important;  /* your blue */
+  color: #ffffff !important;             /* white text */
+  border-radius: 4px !important;
+  padding: 4px 12px !important;             /* keep same horizontal padding */
+  margin-top: 3px !important;             /* keep same horizontal padding */
+}
+
+/* 6) Remove the default border around the active <li> so it doesn’t show a grey outline */
+.custom-table .ant-pagination-item-active {
+  border: none !important;
+}
+
+/* 7) Style the “Prev” & “Next” arrow buttons to match the page items */
+.custom-table .ant-pagination-prev .ant-pagination-item-link,
+.custom-table .ant-pagination-next .ant-pagination-item-link {
+  margin: 0 4px;               /* same horizontal spacing */
+  display: inline-flex;        /* keep arrows aligned with numbers */
+  align-items: center;
+  justify-content: center;
+  width: 32px;                 /* square box for arrow */
+  height: 32px;
+  border-radius: 4px;
+  background-color: transparent;
+  transition: background 0.2s;
+}
+
+.custom-table .ant-pagination-prev .ant-pagination-item-link:hover,
+.custom-table .ant-pagination-next .ant-pagination-item-link:hover {
+  background-color: rgba(73, 127, 255, 0.1);
+}
+
+/* 8) Style the ellipsis “…” so it matches size and color */
+.custom-table .ant-pagination-item-ellipsis {
+  margin: 0 4px;               /* same spacing as other <li> */
+  color: #333;                 /* dark grey, so it’s visible but subtle */
+  font-size: 14px;
+  line-height: 32px;           /* vertically center inside the 32px height */
+}
+
+/* 9) If you want to explicitly hide the default border around all page items: */
+.custom-table .ant-pagination-item,
+.custom-table .ant-pagination-prev .ant-pagination-item-link,
+.custom-table .ant-pagination-next .ant-pagination-item-link {
+  border: none !important;
+}
+
+/* 10) Ensure disabled arrows (when on first/last page) appear “grayed out” */
+.custom-table .ant-pagination-disabled .ant-pagination-item-link {
+  color: #ccc;
+  cursor: not-allowed;
+}
+.anticon svg {
+    display: inline-block;
+    margin-top: 10px;
+}
+.custom-table .ant-pagination-item, .custom-table .ant-pagination-prev .ant-pagination-item-link, .custom-table .ant-pagination-next .ant-pagination-item-link {
+    border: none !important;
+    padding-bottom: 7px !important;
+}
+
+.custom-table .ant-pagination-item, .custom-table .ant-pagination-prev .ant-pagination-item-link, .custom-table .ant-pagination-next .ant-pagination-item-link {
+    border: none !important;
+    padding-bottom: 2px !important;
+}

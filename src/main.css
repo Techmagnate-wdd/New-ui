@@ -1,0 +1,201 @@
+/* body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  input {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    padding: 10px;
+    margin-top: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: #0056b3;
+  }
+  
+  .task-result {
+    margin-top: 20px;
+    padding: 10px;
+    background: #e9ecef;
+    border-radius: 5px;
+  }
+
+  .retrieve-task {
+    width: 18rem !important;
+  }
+
+  .container-task button {
+    margin-left: 6%;
+  } */
+
+ /* Toast Container Styling */
+/* .toast-container .Toastify__toast {
+    font-family: "Arial", sans-serif; 
+    font-size: 16px;
+    border-radius: 8px;
+  } */
+  
+  /* Success Toast */
+  /* .toast-container .Toastify__toast--success {
+    background-color: #28a745 !important;
+    color: white;
+  } */
+  
+  /* Error Toast */
+  /* .toast-container .Toastify__toast--error {
+    background-color: #dc3545 !important;
+    color: white;
+  }
+   */
+  /* Make the icon white */
+  /* .toast-container .Toastify__toast-icon svg {
+    fill: white !important;
+  } */
+  
+  /* Style the toast text */
+  /* .toast-container .Toastify__toast-body {
+    font-weight: bold;
+    text-align: center;
+  } */
+
+  /* Navbar Styles */
+/* .navbar {
+  background: #007bff;
+  padding: 10px 20px;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-logo {
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+} */
+
+/* Desktop Links */
+/* .navbar-links {
+  display: flex;
+  gap: 15px;
+} */
+
+/* .nav-link {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+}
+
+.nav-link:hover {
+  color: #d4d4d4;
+} */
+
+/* Mobile Menu Button */
+/* .menu-button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: none;
+}
+
+.menu-icon {
+  width: 28px;
+  height: 28px;
+} */
+
+/* Mobile Menu */
+/* .mobile-menu {
+  display: flex;
+  flex-direction: column;
+  background: #0056b3;
+  padding: 10px;
+  position: absolute;
+  top: 50px;
+  width: 100%;
+  left: 0;
+} */
+
+/* .mobile-link {
+  color: white;
+  padding: 10px;
+  text-decoration: none;
+} */
+
+/* .mobile-link:hover {
+  background: #00408a;
+} */
+
+/* Responsive */
+/* @media (max-width: 768px) {
+  .navbar-links {
+    display: none;
+  }
+
+  .menu-button {
+    display: block;
+  }
+} */
+
+/* .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #282c34;
+  padding: 10px 20px;
+  color: white;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+} */
+
+/* .navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+} */
+

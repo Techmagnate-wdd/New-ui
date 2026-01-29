@@ -1,0 +1,116 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Target your table via the wrapper class */
+.custom-table .ant-table-container {
+  border: 1px solid #ddd; 
+  border-radius: 4px;               /* soften the corners */
+}
+
+/* Sticky header row */
+.custom-table .ant-table-thead > tr > th {
+  position: sticky;
+  top: 0;
+  background: #fafafa;
+  border-bottom: 2px solid #ccc;
+  padding: 8px 12px;
+  font-weight: 600;
+  white-space: nowrap;              /* prevent header wrap */
+  z-index: 2;                       /* stay above scrollable body */
+}
+
+/* Body cells */
+.custom-table .ant-table-tbody > tr > td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+  white-space: nowrap;              /* prevent text wrap */
+  overflow: hidden;
+  text-overflow: ellipsis;          /* truncate with “…” */
+}
+
+/* Scrollbar tweaks (WebKit only) */
+.custom-table .ant-table-body::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.custom-table .ant-table-body::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;      /* enable horizontal scrolling */
+}
+/* 1) Light‐gray border between columns */
+.custom‐table .ant-table-thead > tr > th,
+.custom‐table .ant-table-tbody > tr > td {
+  border-right: 1px solid #e0e0e0;
+}
+
+/* Remove border‐right on the last cell of each row */
+.custom‐table .ant-table-thead > tr > th:last-child,
+.custom‐table .ant-table-tbody > tr > td:last-child {
+  border-right: none;
+}
+
+/* 2) Make wrapper horizontally scrollable */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.custom-table .ant-table-pagination {
+   background: #497fff !important;
+    color: #fff !important;
+    border-radius: 4px !important;
+    padding: 0 10px !important;           /* add space above the pager */
+}
+
+
+.custom-table li.ant-pagination-item.ant-pagination-item-1.ant-pagination-item-active {
+    background: #497fff;
+    color: #fff !important;
+    border-radius: 4px;
+    padding: 0 10px;
+}
+
+
+
+

@@ -1,0 +1,30 @@
+
+
+.focus-tab-item {
+  margin-right: 8px;            
+  border: none;                 
+  background-color: #487FFF; 
+  color: #4a4a4a !important;        
+  border-radius: 4px;           
+  padding: 8px 16px;            
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.focus-tab .nav-link.active {
+    background-color: #487fff;
+    color: #fff !important;
+}
+
+.focus-tab-item.active {
+  background-color: #487FFF;  
+  color: #FFFFFF !important; 
+  font-weight: 600;           
+}
+
+.nav-pills .nav-link {
+  border: none;
+}
+
+.card-header .nav-pills {
+  margin-bottom: 0;
+}

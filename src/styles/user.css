@@ -1,0 +1,216 @@
+/* custom-table.css */
+
+/* 1) Add horizontal padding on all header cells and body cells to create a gap */
+.custom-table .ant-table-thead > tr > th,
+.custom-table .ant-table-tbody > tr > td {
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
+
+/* 2) (Optional) If you want a very faint vertical separator, add a light border on the right of each cell */
+.custom-table .ant-table-tbody > tr > td {
+  border-right: 1px solid #f0f0f0;
+}
+
+/* 3) Remove the border on the last cell, so there isn’t a double‐line at the table edge */
+.custom-table .ant-table-thead > tr > th:last-child,
+.custom-table .ant-table-tbody > tr > td:last-child {
+  border-right: none;
+}
+
+/* styles.css */
+
+/* Base style for all status tags */
+.status-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 12px;
+  /* color: #fff; */
+}
+
+/* Green background for “active” */
+.status-tag.active {
+  background-color: #28a745; /* a nice green */
+  color: #fff !important;
+}
+
+/* Gray background for “inactive” */
+.status-tag.inactive {
+  background-color: #dc3545; /* a nice red */
+  color:#fff !important
+}
+
+/* Optional: add a small right margin so tags don’t stick to each other */
+.status-tag + .status-tag {
+  margin-left: 4px;
+}
+/* If your multi-select looked too tall, this ensures it looks like a normal input */
+.form-select[multiple] {
+  min-height: auto; /* Let the browser decide the height */
+  height: auto; /* Prevent forced “4-row” height */
+  background-color: #fff; /* match other form-controls */
+}
+.status-tag.badge-success {
+  background-color: #28a745 !important; /* restore green */
+  color: #fff !important;
+  padding: 6px !important; /* ensure text stays white */
+}
+.status-tag.badge-danger {
+  background-color: #dc3545 !important; /* restore red */
+  color: #fff !important;
+  padding: 6px !important;
+}
+/* UserFormModal.css */
+
+.user-form-container {
+  padding-top: 40px; /* Gives breathing room at the top */
+  padding-bottom: 40px; /* Gives breathing room at the bottom */
+  background-color: #f8f9fa; /* Light gray background behind the card */
+  min-height: 100vh; /* Make sure it fills the full viewport height */
+}
+
+/* Style the card header’s title */
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Make the multiple‐select box a bit taller */
+.form-select[multiple] {
+  min-height: 130px;
+}
+
+/* If you'd rather hide the “size” scrollbar in some browsers (optional) */
+.form-select[multiple]::-webkit-scrollbar {
+  width: 6px;
+}
+
+.form-select[multiple]::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+/* You can adjust the spinner’s margin in the button */
+.btn .spinner-border {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Select multiple project css */
+
+/* ProjectsMultiSelect.css */
+
+/* Container holds both the “input” and the dropdown */
+.projects-multiselect {
+  position: relative;
+  width: 100%;
+  font-family: inherit;
+  margin-top: 0.25rem; /* match Bootstrap form spacing */
+}
+
+/* Disabled styling */
+.projects-multiselect.disabled .select-input {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+  color: #6c757d;
+}
+
+/* The “input” box that you click */
+.select-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  background-color: #ffffff;
+  cursor: pointer;
+  min-height: 2.4rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.select-input:hover {
+  border-color: #86b7fe;
+}
+
+.select-input.open {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+}
+
+/* Placeholder text when nothing is selected */
+.placeholder {
+  color: #6c757d;
+}
+
+/* Container for multiple “tags” */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+/* Each tag pill */
+.tag-item {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+/* Chevron icon on the right side of input */
+.chevron-icon {
+  font-size: 1.125rem;
+  color: #6c757d;
+}
+
+/* The dropdown box itself */
+.options-dropdown {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  left: 0;
+  right: 0;
+  max-height: 12rem;
+  overflow-y: auto;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  background-color: #ffffff;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+/* “No options” message */
+.no-options {
+  padding: 0.75rem;
+  color: #6c757d;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* Each option row with a checkbox */
+.option-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.option-item:hover {
+  background-color: #f8f9fa;
+}
+
+/* Native checkbox styling: leave default or customize */
+.option-item input[type="checkbox"] {
+  margin-right: 0.5rem;
+  accent-color: #0d6efd;
+}
+
+.option-label {
+  flex: 1;
+}

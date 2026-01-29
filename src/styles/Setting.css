@@ -1,0 +1,41 @@
+/* ------------------------------------------------------------------- */
+/* 1) icon-field: positions the icon to the left inside the input       */
+/* ------------------------------------------------------------------- */
+.icon-field {
+  position: relative;
+}
+.icon-field .icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #888;
+  pointer-events: none;
+}
+.icon-field input {
+  width: 100%;
+  padding: 16px 16px 16px 48px;  /* top/right/bottom/left so text doesn’t overlap icon */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+  font-size: 14px;
+}
+
+/* ------------------------------------------------------------------- */
+/* 2) headings and separators                                          */
+/* ------------------------------------------------------------------- */
+.auth-right h4 {
+  margin-bottom: 1rem;
+}
+.auth-right hr {
+  border: none;
+  border-top: 1px solid #eee;
+}
+
+/* ------------------------------------------------------------------- */
+/* 3) override any masterLayout overflow so content sits on top        */
+/* ------------------------------------------------------------------- */
+.auth {
+  z-index: 1;
+}
