@@ -56,9 +56,9 @@ export function KeywordOverview() {
   return (
     <div className="space-y-4">
       {/* Search and Filters */}
-      <Card className="p-4">
+      <Card className=" mb-25 round-10 bg-white pad-15 search-bar">
         <div className="flex items-center gap-4 flex-wrap">
-          <div className="flex-1 min-w-[200px]">
+          <div className="ser-input">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <Input
@@ -69,25 +69,17 @@ export function KeywordOverview() {
               />
             </div>
           </div>
-          <div className="flex gap-2 flex-wrap">
-            <Badge className="cursor-pointer hover:bg-gray-100">
-              All Keywords ({mockKeywords.length})
-            </Badge>
-            <Badge className="cursor-pointer hover:bg-gray-100">
-              Top 3 (42)
-            </Badge>
-            <Badge className="cursor-pointer hover:bg-gray-100">
-              Trending Up (28)
-            </Badge>
-            <Badge className="cursor-pointer hover:bg-gray-100">
-              Trending Down (15)
-            </Badge>
+          <div className="ser-field">
+            <span>All Keywords (8)</span>
+            <span>Top 3 (42)</span>
+            <span>Trending Up (28)</span>
+            <span>Trending Down (15)</span>
           </div>
         </div>
       </Card>
 
       {/* Keywords Table */}
-      <Card>
+      <Card className="kew-table">
         <Table>
           <TableHeader>
             <TableRow>
@@ -212,15 +204,15 @@ export function KeywordOverview() {
                 {expandedRow === keyword.id && (
                   <TableRow>
                     <TableCell colSpan={8} className="bg-gray-50">
-                      <div className="py-4 px-6">
+                      <div className="pad-20">
                         <h4 className="font-semibold text-gray-900 mb-3">SERP Preview</h4>
-                        <div className="bg-white p-4 rounded-lg border border-gray-200">
+                        <div className="pad-20 round-10 bg-white">
                           <div className="space-y-3">
-                            <div className="text-sm">
+                            <div className="text1">
                               <p className="text-gray-600">Ranking URL:</p>
                               <p className="text-blue-600 font-medium">{keyword.url}</p>
                             </div>
-                            <div className="text-sm">
+                            <div className="text2">
                               <p className="text-gray-600 mb-2">Active SERP Features:</p>
                               <div className="flex flex-wrap gap-2">
                                 {keyword.serpFeatures.map((feature, idx) => (

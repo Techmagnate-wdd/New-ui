@@ -199,3 +199,35 @@
   text-decoration: underline;
 } */
 
+.submit-dash {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+.submit-dash .text-card-foreground {
+    width: 24%;
+    border-radius: 10px;
+    padding: 15px !important;
+    background: #fff;
+}
+.submit-dash .text-card-foreground .flex {
+    display: flex;
+    justify-content: space-between;
+}
+.submit-dash .text-card-foreground .flex .flex-1 p:nth-child(2) {
+    font-size: 25px !important;
+    font-weight: 700;
+}
+.submit-dash .text-card-foreground .flex .flex-1 .inline-flex {
+    background: #c3ffd5;
+    width: max-content;
+    padding: 3px 10px !important;
+    border-radius: 23px;
+    align-items: center;
+    display: flex;
+}
+.submit-dash .text-card-foreground .flex .flex-1 .inline-flex svg {
+    max-width: 20px !important;
+}

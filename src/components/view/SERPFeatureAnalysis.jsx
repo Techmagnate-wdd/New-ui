@@ -43,9 +43,9 @@ export function SERPFeatureAnalysis() {
   const Icon = selectedTab?.icon || Star;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 serp-feat">
       {/* Feature Selection Tabs */}
-      <Card className="p-4">
+      <Card className="pad-20 round-10 mb-25 bg-white">
         <Tabs value={selectedFeature} onValueChange={setSelectedFeature}>
           <TabsList className="grid grid-cols-5 lg:grid-cols-10 gap-2 h-auto bg-transparent">
             {featureTabs.map((tab) => {
@@ -65,21 +65,21 @@ export function SERPFeatureAnalysis() {
         </Tabs>
       </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="serp-col">
         {/* Left Panel - Keyword List */}
-        <Card className="p-6 lg:col-span-1">
+        <Card className="pad-20 round-10 inner-card bg-white">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-gray-900">Keywords</h3>
             <Badge>{filteredKeywords.length}</Badge>
           </div>
           
-          <div className="space-y-2 max-h-[600px] overflow-y-auto">
+          <div className="space-y-2 max-h-[600px] overflow-y-auto mt-15">
             {filteredKeywords.map((keyword) => (
               <div
                 key={keyword.id}
-                className="p-3 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 cursor-pointer transition-colors"
+                className="p-3 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 cursor-pointer transition-colors mb-10 round-10"
               >
-                <div className="flex items-start justify-between gap-2">
+                <div className="flex-dev">
                   <div className="flex-1">
                     <p className="text-sm font-medium text-gray-900">{keyword.keyword}</p>
                     <div className="flex items-center gap-2 mt-1">
@@ -95,16 +95,16 @@ export function SERPFeatureAnalysis() {
         </Card>
 
         {/* Central Panel - SERP Preview */}
-        <Card className="p-6 lg:col-span-1">
+        <Card className="pad-20 round-10 inner-card bg-white">
           <h3 className="font-semibold text-gray-900 mb-4">SERP Preview</h3>
           
-          <div className="space-y-4">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <div className="flex items-start gap-3">
-                <Icon className={`w-6 h-6 ${selectedTab?.color} flex-shrink-0`} />
+          <div className="space-y-4 mt-15">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-10 round-10 pad-15">
+              <div className="dis-flex align-items-center">
+                <Icon className={`w-6 h-6 ${selectedTab?.color} flex-shrink-0 feat-snip`} />
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-1">{selectedFeature}</h4>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 m-0">
                     This feature appears in {featureData?.percentage}% of tracked SERPs
                   </p>
                 </div>
@@ -112,8 +112,8 @@ export function SERPFeatureAnalysis() {
             </div>
 
             {/* Mock SERP Result */}
-            <div className="space-y-3">
-              <div className="border border-green-300 bg-green-50 rounded-lg p-4">
+            <div className="space-y-3 tool-cop">
+              <div className="border border-green-300 bg-green-50 rounded-lg p-4 mb-10 round-10 pad-15">
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <Badge variant="secondary" className="bg-green-600 text-white">
                     Your Site
@@ -129,7 +129,7 @@ export function SERPFeatureAnalysis() {
                 <p className="text-xs text-green-700">yoursite.com • Position #{filteredKeywords[0]?.currentPosition || 1}</p>
               </div>
 
-              <div className="border border-gray-200 rounded-lg p-4">
+              <div className="border border-gray-200 rounded-lg p-4 mb-10 round-10 pad-15">
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <Badge variant="outline">Competitor</Badge>
                   <XCircle className="w-5 h-5 text-gray-400" />
@@ -147,10 +147,10 @@ export function SERPFeatureAnalysis() {
         </Card>
 
         {/* Right Panel - Insights */}
-        <Card className="p-6 lg:col-span-1">
+        <Card className="pad-20 round-10 inner-card bg-white feat-insight">
           <h3 className="font-semibold text-gray-900 mb-4">Feature Insights</h3>
           
-          <div className="space-y-4">
+          <div className="space-y-4 mt-15">
             <div>
               <h4 className="text-sm font-medium text-gray-900 mb-2">Performance</h4>
               <div className="space-y-2">
