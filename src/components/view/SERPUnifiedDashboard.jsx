@@ -1,8 +1,8 @@
-import { Card } from '@/app/components/ui/card';
-import { Badge } from '@/app/components/ui/badge';
 import { CheckCircle2, Circle } from 'lucide-react';
-import { mockKeywords } from '@/app/data/mockData';
-import { cn } from '@/app/components/ui/utils';
+import { Card } from '../ui/card';
+import { mockKeywords } from '../data/mockData';
+import { cn } from '../ui/utils';
+import { Badge } from 'antd';
 
 export function SERPUnifiedDashboard() {
   const serpComponents = [
@@ -16,14 +16,14 @@ export function SERPUnifiedDashboard() {
     'News'
   ];
 
-  const hasFeature = (keyword: any, component: string) => {
+  const hasFeature = (keyword, component) => {
     if (component === 'Organic') return true; // All keywords have organic
-    return keyword.serpFeatures.some((f: string) => 
+    return keyword.serpFeatures.some((f) => 
       f.toLowerCase().includes(component.toLowerCase().replace(' ', ''))
     );
   };
 
-  const isOwned = (keyword: any, component: string) => {
+  const isOwned = (keyword, component) => {
     // Simulate ownership - some features are owned by us
     if (component === 'Organic') return true;
     const random = parseInt(keyword.id) % 3;

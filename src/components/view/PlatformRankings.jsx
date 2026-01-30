@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Card } from '@/app/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
-import { TrendBadge } from '@/app/components/common/TrendBadge';
-import { Badge } from '@/app/components/ui/badge';
 import { Image as ImageIcon, MapPin, Youtube, Smartphone, Search } from 'lucide-react';
-import { mockKeywords } from '@/app/data/mockData';
+import { mockKeywords } from '../data/mockData';
+import { Card } from '../ui/card';
+import { TrendBadge } from '../common/TrendBadge';
+import { Badge } from 'antd';
+import { Tabs, TabsList, TabsTrigger } from '../ui/tabs';
 
 export function PlatformRankings() {
   const [selectedPlatform, setSelectedPlatform] = useState('Image Search');

@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Card } from  '@/app/components/ui/card';
-import { Button } from '@/app/components/ui/button';
-import { Badge } from '@/app/components/ui/badge';
-import { Checkbox } from '@/app/components/ui/checkbox';
 import { FileText, Download, Mail, Calendar, Eye } from 'lucide-react';
+import { Card } from '../ui/card';
+import { Button } from '../ui/button';
+import { Badge } from 'antd';
+import { Checkbox } from '../ui/checkbox';
 
 export function ReportsView() {
-  const [selectedSections, setSelectedSections] = useState<string[]>([
+  const [selectedSections, setSelectedSections] = useState([
     'summary',
     'keywords',
     'serp-features'
@@ -22,7 +22,7 @@ export function ReportsView() {
     { id: 'trends', label: 'Trend Analysis', description: 'Historical performance charts' }
   ];
 
-  const toggleSection = (sectionId: string) => {
+  const toggleSection = (sectionId) => {
     setSelectedSections(prev =>
       prev.includes(sectionId)
         ? prev.filter(id => id !== sectionId)

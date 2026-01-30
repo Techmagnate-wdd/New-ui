@@ -1,8 +1,8 @@
-import { Card } from '@/app/components/ui/card';
-import { Badge } from '@/app/components/ui/badge';
-import { TrendBadge } from '@/app/components/common/TrendBadge';
 import { Image as ImageIcon, Video, Film, Youtube } from 'lucide-react';
-import { mockKeywords } from '@/app/data/mockData';
+import { mockKeywords } from '../data/mockData';
+import { Card } from '../ui/card';
+import { TrendBadge } from '../common/TrendBadge';
+import { Badge } from 'antd';
 
 export function MediaSearchAnalysis() {
   const mediaKeywords = mockKeywords.filter(kw => 

@@ -85,6 +85,16 @@ import VideoPage from "./pages/SerpFeatures/VideoPage";
 import ShoppingPage from "./pages/SerpFeatures/ShoppingPage";
 import UnifiedTesting from "./pages/UnifiedDashboard/UnifiedTesting";
 import { SummaryDashboard } from "./components/view/SummaryDashboard";
+import { KeywordOverview } from "./components/view/KeywordOverview";
+import { SERPFeatureAnalysis } from "./components/view/SERPFeatureAnalysis";
+import { PlatformRankings } from "./components/view/PlatformRankings";
+import { MediaSearchAnalysis } from "./components/view/MediaSearchAnalysis";
+import { LocalGeoAnalysis } from "./components/view/LocalGeoAnalysis";
+import { CommunityResults } from "./components/view/CommunityResults";
+import { SERPUnifiedDashboard } from "./components/view/SERPUnifiedDashboard";
+import { AIInsights } from "./components/view/AIInsights";
+import { AlertsView } from "./components/view/AlertsView";
+import { ReportsView } from "./components/view/ReportsView";
 
 export const RoleBasedRoute = ({ roles, children }) => {
   const { user } = useContext(AuthContext);
@@ -902,7 +912,7 @@ function App() {
             element={
               <ProtectedRoute moduleKey="APP_RANK_PROJECTS">
                 <MasterLayout>
-                  <SummaryDashboard />
+                  <KeywordOverview />
                 </MasterLayout>
               </ProtectedRoute>
             }
@@ -910,11 +920,11 @@ function App() {
 
           {/* Keyword Overview */}
           <Route
-            path="/serp-features"
+            path="/serp-features-new"
             element={
               <ProtectedRoute moduleKey="APP_RANK_PROJECTS">
                 <MasterLayout>
-                  <SummaryDashboard />
+                  <SERPFeatureAnalysis />
                 </MasterLayout>
               </ProtectedRoute>
             }
@@ -926,7 +936,7 @@ function App() {
             element={
               <ProtectedRoute moduleKey="APP_RANK_PROJECTS">
                 <MasterLayout>
-                  <SummaryDashboard />
+                  <PlatformRankings />
                 </MasterLayout>
               </ProtectedRoute>
             }
@@ -937,7 +947,7 @@ function App() {
             element={
               <ProtectedRoute moduleKey="APP_RANK_PROJECTS">
                 <MasterLayout>
-                  <SummaryDashboard />
+                  <MediaSearchAnalysis />
                 </MasterLayout>
               </ProtectedRoute>
             }
@@ -948,7 +958,7 @@ function App() {
             element={
               <ProtectedRoute moduleKey="APP_RANK_PROJECTS">
                 <MasterLayout>
-                  <SummaryDashboard />
+                  <LocalGeoAnalysis />
                 </MasterLayout>
               </ProtectedRoute>
             }
@@ -959,7 +969,7 @@ function App() {
             element={
               <ProtectedRoute moduleKey="APP_RANK_PROJECTS">
                 <MasterLayout>
-                  <SummaryDashboard />
+                  <CommunityResults />
                 </MasterLayout>
               </ProtectedRoute>
             }
@@ -971,7 +981,7 @@ function App() {
             element={
               <ProtectedRoute moduleKey="APP_RANK_PROJECTS">
                 <MasterLayout>
-                  <SummaryDashboard />
+                  <SERPUnifiedDashboard />
                 </MasterLayout>
               </ProtectedRoute>
             }
@@ -983,7 +993,7 @@ function App() {
             element={
               <ProtectedRoute moduleKey="APP_RANK_PROJECTS">
                 <MasterLayout>
-                  <SummaryDashboard />
+                  <AIInsights />
                 </MasterLayout>
               </ProtectedRoute>
             }
@@ -994,7 +1004,7 @@ function App() {
             element={
               <ProtectedRoute moduleKey="APP_RANK_PROJECTS">
                 <MasterLayout>
-                  <SummaryDashboard />
+                  <AlertsView />
                 </MasterLayout>
               </ProtectedRoute>
             }
@@ -1005,7 +1015,7 @@ function App() {
             element={
               <ProtectedRoute moduleKey="APP_RANK_PROJECTS">
                 <MasterLayout>
-                  <SummaryDashboard />
+                  <ReportsView />
                 </MasterLayout>
               </ProtectedRoute>
             }

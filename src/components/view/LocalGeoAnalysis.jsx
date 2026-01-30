@@ -1,19 +1,19 @@
-import { Card } from '@/app/components/ui/card';
-import { Badge } from '@/app/components/ui/badge';
-import { TrendBadge } from '@/app/components/common/TrendBadge';
 import { MapPin, Navigation } from 'lucide-react';
-import { mockKeywords } from '@/app/data/mockData';
+import { Card } from '../ui/card';
+import { TrendBadge } from '../common/TrendBadge';
+import { mockKeywords } from '../data/mockData';
+import { Badge } from 'antd';
 
 export function LocalGeoAnalysis() {
-  const localKeywords = mockKeywords.filter(kw => 
+  const localKeywords = mockKeywords.filter(kw =>
     kw.serpFeatures.includes('Local Pack') || kw.platforms.includes('Local')
   );
 
   const cities = [
-    { name: 'New York, NY', keywords: 8, avgPosition: 2.3, trend: 'up' as const },
-    { name: 'Los Angeles, CA', keywords: 6, avgPosition: 3.1, trend: 'up' as const },
-    { name: 'Chicago, IL', keywords: 5, avgPosition: 4.2, trend: 'stable' as const },
-    { name: 'Houston, TX', keywords: 4, avgPosition: 5.1, trend: 'down' as const }
+    { name: 'New York, NY', keywords: 8, avgPosition: 2.3, trend: 'up' },
+    { name: 'Los Angeles, CA', keywords: 6, avgPosition: 3.1, trend: 'up' },
+    { name: 'Chicago, IL', keywords: 5, avgPosition: 4.2, trend: 'stable' },
+    { name: 'Houston, TX', keywords: 4, avgPosition: 5.1, trend: 'down' }
   ];
 
   return (
@@ -71,7 +71,7 @@ export function LocalGeoAnalysis() {
               </div>
               <TrendBadge trend={city.trend} size="sm" />
             </div>
-            
+
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-gray-600">Avg Position:</span>

@@ -1,6 +1,3 @@
-import { Card } from '@/app/components/ui/card';
-import { Badge } from '@/app/components/ui/badge';
-import { Button } from '@/app/components/ui/button';
 import { 
   Sparkles, 
   AlertTriangle, 
@@ -9,10 +6,13 @@ import {
   ArrowRight,
   Lightbulb
 } from 'lucide-react';
-import { mockAIInsights } from '@/app/data/mockData';
+import { Badge } from 'antd';
+import { Card } from '../ui/card';
+import { mockAIInsights } from '../data/mockData';
+import { Button } from '../ui/button';
 
 export function AIInsights() {
-  const getInsightIcon = (type: string) => {
+  const getInsightIcon = (type) => {
     switch (type) {
       case 'opportunity': return <TrendingUp className="w-6 h-6 text-green-600" />;
       case 'risk': return <AlertTriangle className="w-6 h-6 text-red-600" />;
@@ -22,7 +22,7 @@ export function AIInsights() {
     }
   };
 
-  const getInsightColor = (type: string) => {
+  const getInsightColor = (type) => {
     switch (type) {
       case 'opportunity': return 'border-green-200 bg-green-50';
       case 'risk': return 'border-red-200 bg-red-50';
@@ -32,7 +32,7 @@ export function AIInsights() {
     }
   };
 
-  const getPriorityBadge = (priority: string) => {
+  const getPriorityBadge = (priority) => {
     if (priority === 'high') return <Badge variant="destructive">High Priority</Badge>;
     if (priority === 'medium') return <Badge variant="default">Medium Priority</Badge>;
     return <Badge variant="secondary">Low Priority</Badge>;

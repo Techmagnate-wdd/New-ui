@@ -1,17 +1,4 @@
 import { useState } from 'react';
-import { TrendBadge } from '@/app/components/common/TrendBadge';
-import { Card } from '@/app/components/ui/card';
-import { Badge } from '@/app/components/ui/badge';
-import { Button } from '@/app/components/ui/button';
-import { Input } from '@/app/components/ui/input';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/app/components/ui/table';
 import { 
   Search, 
   Star, 
@@ -21,20 +8,24 @@ import {
   MapPin,
   ArrowUpDown,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Badge,
 } from 'lucide-react';
-import { mockKeywords } from '@/app/data/mockData';
 
-type SortField = 'keyword' | 'currentPosition' | 'searchVolume' | 'difficulty';
-type SortOrder = 'asc' | 'desc';
+import { Card } from '../ui/card';
+import { mockKeywords } from '../data/mockData';
+import { Input } from '../ui/input';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import { Button } from '../ui/button';
+import { TrendBadge } from '../common/TrendBadge';
 
 export function KeywordOverview() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortField, setSortField] = useState<SortField>('currentPosition');
-  const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
-  const [expandedRow, setExpandedRow] = useState<string | null>(null);
+  const [sortField, setSortField] = useState('currentPosition');
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [expandedRow, setExpandedRow] = useState(null);
 
-  const handleSort = (field: SortField) => {
+  const handleSort = (field) => {
     if (sortField === field) {
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     } else {
@@ -53,7 +44,7 @@ export function KeywordOverview() {
       return multiplier * (a[sortField] - b[sortField]);
     });
 
-  const getFeatureIcon = (feature: string) => {
+  const getFeatureIcon = (feature) => {
     if (feature.includes('Snippet')) return <Star className="w-4 h-4 text-yellow-600" />;
     if (feature.includes('AI')) return <Sparkles className="w-4 h-4 text-purple-600" />;
     if (feature.includes('Video')) return <Video className="w-4 h-4 text-red-600" />;
@@ -79,16 +70,16 @@ export function KeywordOverview() {
             </div>
           </div>
           <div className="flex gap-2 flex-wrap">
-            <Badge variant="outline" className="cursor-pointer hover:bg-gray-100">
+            <Badge className="cursor-pointer hover:bg-gray-100">
               All Keywords ({mockKeywords.length})
             </Badge>
-            <Badge variant="outline" className="cursor-pointer hover:bg-gray-100">
+            <Badge className="cursor-pointer hover:bg-gray-100">
               Top 3 (42)
             </Badge>
-            <Badge variant="outline" className="cursor-pointer hover:bg-gray-100">
+            <Badge className="cursor-pointer hover:bg-gray-100">
               Trending Up (28)
             </Badge>
-            <Badge variant="outline" className="cursor-pointer hover:bg-gray-100">
+            <Badge className="cursor-pointer hover:bg-gray-100">
               Trending Down (15)
             </Badge>
           </div>

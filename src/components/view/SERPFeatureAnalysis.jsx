@@ -1,7 +1,4 @@
 import { useState } from 'react';
-import { Card } from '@/app/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
-import { Badge } from '@/app/components/ui/badge';
 import { 
   Star, 
   HelpCircle, 
@@ -16,7 +13,10 @@ import {
   CheckCircle2,
   XCircle
 } from 'lucide-react';
-import { mockKeywords, mockSerpFeatures } from '@/app/data/mockData';
+import { mockKeywords, mockSerpFeatures } from '../data/mockData';
+import { Card } from '../ui/card';
+import { Badge } from 'antd';
+import { Tabs, TabsList, TabsTrigger } from '../ui/tabs';
 
 export function SERPFeatureAnalysis() {
   const [selectedFeature, setSelectedFeature] = useState('Featured Snippet');

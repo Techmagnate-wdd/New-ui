@@ -7,7 +7,6 @@ import {
   ArrowUpCircle
 } from 'lucide-react';
 
-// import { KPICard } from "../components/common/KPICard";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { mockAlerts, mockPlatforms, mockSerpFeatures, rankingTrendData, serpFeatureDistribution } from "../data/mockData";
 import { TrendBadge } from "../common/TrendBadge";

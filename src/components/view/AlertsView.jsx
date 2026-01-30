@@ -1,7 +1,3 @@
-import { Card } from '@/app/components/ui/card';
-import { Badge } from '@/app/components/ui/badge';
-import { Button } from '@/app/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
 import { 
   AlertTriangle, 
   Star, 
@@ -11,16 +7,20 @@ import {
   CheckCircle2,
   X
 } from 'lucide-react';
-import { mockAlerts } from '@/app/data/mockData';
+import { Card } from '../ui/card';
+import { mockAlerts } from '../data/mockData';
+import { Tabs, TabsList, TabsTrigger } from '../ui/tabs';
+import { Badge } from 'antd';
+import { Button } from '../ui/button';
 
 export function AlertsView() {
-  const getSeverityColor = (severity: string) => {
+  const getSeverityColor = (severity) => {
     if (severity === 'high') return 'border-red-300 bg-red-50';
     if (severity === 'medium') return 'border-yellow-300 bg-yellow-50';
     return 'border-blue-300 bg-blue-50';
   };
 
-  const getAlertIcon = (type: string) => {
+  const getAlertIcon = (type) => {
     switch (type) {
       case 'rank_drop': return <AlertTriangle className="w-5 h-5" />;
       case 'feature_loss': return <Star className="w-5 h-5" />;

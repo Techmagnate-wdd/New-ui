@@ -1,6 +1,6 @@
-import { Card } from '@/app/components/ui/card';
-import { Badge } from '@/app/components/ui/badge';
 import { MessageSquare, Users, ThumbsUp, MessageCircle } from 'lucide-react';
+import { Card } from '../ui/card';
+import { Badge } from 'antd';
 
 export function CommunityResults() {
   const discussions = [

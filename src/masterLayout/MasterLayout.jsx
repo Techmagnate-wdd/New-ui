@@ -209,7 +209,7 @@ const MasterLayout = ({ children }) => {
               <ul className="sidebar-submenu">
                 <li>
                   <NavLink
-                    to="/serp-features"
+                    to="/serp-features-new"
                     className={({ isActive }) =>
                       isActive ? "active-page" : ""
                     }
