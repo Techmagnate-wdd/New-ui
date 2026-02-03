@@ -41,64 +41,64 @@ export function AIInsights() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="p-6 bg-gradient-to-r from-purple-500 to-blue-600 text-white">
-        <div className="flex items-start justify-between">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
+      <Card className="p-6 bg-gradient-to-r from-purple-500 to-blue-600 text-white pad-20 round-10 mb-25 bggg">
+        <div className="flex items-start justify-between dis-flex align-items-start">
+          <div className="">
+            <div className="flex items-center gap-2 mb-2 d-flex mb-20">
               <Sparkles className="w-6 h-6" />
-              <h2 className="text-2xl font-bold">AI-Powered Insights</h2>
+              <h2 className="text-2xl font-bold text-white margin-0">AI-Powered Insights</h2>
             </div>
             <p className="text-purple-100">
               Automated analysis of your SERP visibility with actionable recommendations
             </p>
           </div>
-          <Badge className="bg-white text-purple-600">
+          <Badge className="bg-white text-purple-600 clr-blk">
             {mockAIInsights.length} Active Insights
           </Badge>
         </div>
       </Card>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4 border-l-4 border-l-green-500">
-          <div className="text-sm text-gray-600 mb-1">Opportunities</div>
-          <div className="text-2xl font-bold text-gray-900">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 d-flex gap-15 ai-boxes">
+        <Card className="p-4 border-l-4 border-l-green-500 pad-20 round-10 mb-25 width23">
+          <div className="text-sm text-gray-600 mb-1 mb-20">Opportunities</div>
+          <div className="text-2xl font-bold text-gray-900 font600">
             {mockAIInsights.filter(i => i.type === 'opportunity').length}
           </div>
         </Card>
-        <Card className="p-4 border-l-4 border-l-red-500">
-          <div className="text-sm text-gray-600 mb-1">Risks</div>
-          <div className="text-2xl font-bold text-gray-900">
+        <Card className="p-4 border-l-4 border-l-red-500 pad-20 round-10 mb-25 width23">
+          <div className="text-sm text-gray-600 mb-1 mb-20">Risks</div>
+          <div className="text-2xl font-bold text-gray-900 font600">
             {mockAIInsights.filter(i => i.type === 'risk').length}
           </div>
         </Card>
-        <Card className="p-4 border-l-4 border-l-purple-500">
-          <div className="text-sm text-gray-600 mb-1">Complexity Issues</div>
-          <div className="text-2xl font-bold text-gray-900">
+        <Card className="p-4 border-l-4 border-l-purple-500 pad-20 round-10 mb-25 width23">
+          <div className="text-sm text-gray-600 mb-1 mb-20">Complexity Issues</div>
+          <div className="text-2xl font-bold text-gray-900 font600">
             {mockAIInsights.filter(i => i.type === 'complexity').length}
           </div>
         </Card>
-        <Card className="p-4 border-l-4 border-l-orange-500">
-          <div className="text-sm text-gray-600 mb-1">Mismatches</div>
-          <div className="text-2xl font-bold text-gray-900">
+        <Card className="p-4 border-l-4 border-l-orange-500 pad-20 round-10 mb-25 width23">
+          <div className="text-sm text-gray-600 mb-1 mb-20">Mismatches</div>
+          <div className="text-2xl font-bold text-gray-900 font600">
             {mockAIInsights.filter(i => i.type === 'mismatch').length}
           </div>
         </Card>
       </div>
 
       {/* Insight Cards */}
-      <div className="space-y-4">
+      <div className="space-y-4 insight-card">
         {mockAIInsights.map((insight) => (
-          <Card key={insight.id} className={`p-6 border-2 ${getInsightColor(insight.type)}`}>
+          <Card key={insight.id} className={`p-6 border-2 ${getInsightColor(insight.type)} pad-20 round-10 mb-25`}>
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0">
                 {getInsightIcon(insight.type)}
               </div>
               
               <div className="flex-1">
-                <div className="flex items-start justify-between gap-4 mb-2">
+                <div className="flex items-start justify-between gap-4 mb-2 dis-flex mb-15 align-items-start">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1 mb-20 font600">
                       {insight.title}
                     </h3>
                     <p className="text-sm text-gray-700">
@@ -108,9 +108,9 @@ export function AIInsights() {
                   {getPriorityBadge(insight.priority)}
                 </div>
 
-                <div className="flex items-center gap-4 mt-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <FileText className="w-4 h-4" />
+                <div className="flex items-center gap-4 mt-4 dis-flex mb-15 align-items-start">
+                  <div className="flex items-center gap-2 text-sm text-gray-600 align-items-center">
+                    <FileText className="w-4 h-4 max-w20" />
                     <span>{insight.affectedKeywords} keywords affected</span>
                   </div>
                   
@@ -123,7 +123,7 @@ export function AIInsights() {
                 {/* Action Items */}
                 <div className="mt-4 pt-4 border-t border-gray-300">
                   <h4 className="text-sm font-semibold text-gray-900 mb-2">Recommended Actions:</h4>
-                  <ul className="space-y-1">
+                  <ul className="space-y-1 com-ul">
                     {insight.type === 'opportunity' && (
                       <>
                         <li className="text-sm text-gray-700 pl-4 relative">
@@ -181,8 +181,8 @@ export function AIInsights() {
       </div>
 
       {/* AI Analysis Info */}
-      <Card className="p-6 bg-blue-50 border-blue-200">
-        <div className="flex items-start gap-3">
+      <Card className="p-6 bg-blue-50 border-blue-200 ai-analyse pad-20 round-10 mb-25">
+        <div className="flex items-start gap-3 d-flex align-items-start">
           <Sparkles className="w-6 h-6 text-blue-600 flex-shrink-0" />
           <div>
             <h4 className="font-semibold text-gray-900 mb-1">How AI Insights Work</h4>

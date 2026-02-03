@@ -33,29 +33,29 @@ export function SERPUnifiedDashboard() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="p-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-        <h2 className="text-2xl font-bold mb-2">SERP Unified Dashboard</h2>
-        <p className="text-blue-100">
+      <Card className="p-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white pad-20 round-10 mb-25 bg-main">
+        <h2 className="text-2xl font-bold mb-2 font20 mb-20">SERP Unified Dashboard</h2>
+        <p className="text-blue-100 clr-blk margin-0">
           Consolidated view of all SERP components for each keyword
         </p>
       </Card>
 
       {/* Legend */}
-      <Card className="p-4">
-        <div className="flex items-center gap-6 flex-wrap">
-          <div className="flex items-center gap-2">
+      <Card className="p-4 pad-20 round-10 mb-25 legend">
+        <div className="flex items-center gap-6 flex-wrap d-flex">
+          <div className="flex items-center gap-2 d-flex mar-right-10">
             <div className="w-6 h-6 bg-green-500 rounded flex items-center justify-center">
               <CheckCircle2 className="w-4 h-4 text-white" />
             </div>
             <span className="text-sm text-gray-700">Owned by Brand</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 d-flex mar-right-10">
             <div className="w-6 h-6 bg-blue-100 rounded flex items-center justify-center">
               <Circle className="w-4 h-4 text-blue-600" />
             </div>
             <span className="text-sm text-gray-700">Feature Present</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 d-flex">
             <div className="w-6 h-6 bg-gray-100 rounded" />
             <span className="text-sm text-gray-700">Feature Absent</span>
           </div>
@@ -63,18 +63,18 @@ export function SERPUnifiedDashboard() {
       </Card>
 
       {/* SERP Matrix */}
-      <Card className="p-6 overflow-x-auto">
+      <Card className="p-6 overflow-x-auto legend pad-20 round-10 mb-25">
         <table className="w-full min-w-[800px]">
           <thead>
             <tr className="border-b border-gray-200">
-              <th className="text-left p-3 font-semibold text-gray-900 sticky left-0 bg-white z-10">
+              <th className="text-left p-3 font-semibold text-gray-900 sticky left-0 bg-white z-10 font600 clr-blk">
                 Keyword
               </th>
-              <th className="text-center p-3 font-semibold text-gray-900 min-w-[80px]">
+              <th className="text-center p-3 font-semibold text-gray-900 min-w-[80px] font600 clr-blk">
                 Position
               </th>
               {serpComponents.map((component) => (
-                <th key={component} className="text-center p-3 min-w-[100px]">
+                <th key={component} className="text-center p-3 min-w-[100px] font600 clr-blk">
                   <div className="font-semibold text-gray-900 text-sm">{component}</div>
                 </th>
               ))}
@@ -89,7 +89,7 @@ export function SERPUnifiedDashboard() {
                   idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'
                 )}
               >
-                <td className="p-3 sticky left-0 bg-inherit z-10">
+                <td className="p-3 sticky left-0 bg-inherit z-10 clr-blk font18 font600">
                   <div className="font-medium text-gray-900">{keyword.keyword}</div>
                   <div className="text-xs text-gray-500 mt-1">{keyword.url}</div>
                 </td>
@@ -136,28 +136,28 @@ export function SERPUnifiedDashboard() {
       </Card>
 
       {/* Summary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4">
-          <div className="text-sm text-gray-600 mb-1">Total Features</div>
-          <div className="text-2xl font-bold text-gray-900">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 d-flex">
+        <Card className="p-4 pad-20 round-10 mb-20 width23">
+          <div className="text-sm text-gray-600 mb-1 mb-25 font16">Total Features</div>
+          <div className="text-2xl font-bold text-gray-900 font600">
             {mockKeywords.reduce((sum, kw) => sum + kw.serpFeatures.length, 0)}
           </div>
         </Card>
-        <Card className="p-4">
-          <div className="text-sm text-gray-600 mb-1">Owned Features</div>
-          <div className="text-2xl font-bold text-green-600">
+        <Card className="p-4 pad-20 round-10 mb-20 width23">
+          <div className="text-sm text-gray-600 mb-1 mb-25 font16">Owned Features</div>
+          <div className="text-2xl font-bold text-green-600 green font600">
             {Math.floor(mockKeywords.reduce((sum, kw) => sum + kw.serpFeatures.length, 0) / 3)}
           </div>
         </Card>
-        <Card className="p-4">
-          <div className="text-sm text-gray-600 mb-1">Avg Features per Keyword</div>
-          <div className="text-2xl font-bold text-gray-900">
+        <Card className="p-4 pad-20 round-10 mb-20 width23">
+          <div className="text-sm text-gray-600 mb-1 mb-25 font16">Avg Features per Keyword</div>
+          <div className="text-2xl font-bold text-gray-900 font600">
             {(mockKeywords.reduce((sum, kw) => sum + kw.serpFeatures.length, 0) / mockKeywords.length).toFixed(1)}
           </div>
         </Card>
-        <Card className="p-4">
-          <div className="text-sm text-gray-600 mb-1">Feature Coverage</div>
-          <div className="text-2xl font-bold text-blue-600">72%</div>
+        <Card className="p-4 pad-20 round-10 mb-20 width23">
+          <div className="text-sm text-gray-600 mb-1 mb-25 font16">Feature Coverage</div>
+          <div className="text-2xl font-bold text-blue-600 blue font600">72%</div>
         </Card>
       </div>
     </div>

@@ -25,9 +25,9 @@ export function PlatformRankings() {
   const Icon = selectedPlatformData?.icon || ImageIcon;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 platfor-rank">
       {/* Platform Selection */}
-      <Card className="p-4">
+      <Card className="p-4 pad-20 round-10 mb-25 bg-white">
         <Tabs value={selectedPlatform} onValueChange={setSelectedPlatform}>
           <TabsList className="grid grid-cols-5 gap-2 h-auto bg-transparent">
             {platforms.map((platform) => {
@@ -48,26 +48,26 @@ export function PlatformRankings() {
       </Card>
 
       {/* Platform Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="p-6">
-          <div className="text-sm text-gray-600 mb-1">Total Keywords</div>
-          <div className="text-3xl font-bold text-gray-900">{filteredKeywords.length}</div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 keywrd-crd">
+        <Card className="p-6 pad-20 round-10 mb-25 bg-white">
+          <div className="text-sm text-gray-600 mb-1 mb-25">Total Keywords</div>
+          <div className="text-3xl font-bold text-gray-900 mb-25">{filteredKeywords.length}</div>
           <div className="mt-2">
             <TrendBadge trend="up" value={8} />
           </div>
         </Card>
-        <Card className="p-6">
-          <div className="text-sm text-gray-600 mb-1">Avg Position</div>
-          <div className="text-3xl font-bold text-gray-900">
+        <Card className="p-6 pad-20 round-10 mb-25 bg-white">
+          <div className="text-sm text-gray-600 mb-1 mb-25">Avg Position</div>
+          <div className="text-3xl font-bold text-gray-900 mb-25">
             {(filteredKeywords.reduce((sum, kw) => sum + kw.currentPosition, 0) / filteredKeywords.length || 0).toFixed(1)}
           </div>
           <div className="mt-2">
             <TrendBadge trend="up" value={-12} />
           </div>
         </Card>
-        <Card className="p-6">
-          <div className="text-sm text-gray-600 mb-1">Top 10 Keywords</div>
-          <div className="text-3xl font-bold text-gray-900">
+        <Card className="p-6 pad-20 round-10 mb-25 bg-white">
+          <div className="text-sm text-gray-600 mb-1 mb-25">Top 10 Keywords</div>
+          <div className="text-3xl font-bold text-gray-900 mb-25">
             {filteredKeywords.filter(kw => kw.currentPosition <= 10).length}
           </div>
           <div className="mt-2">
@@ -77,9 +77,9 @@ export function PlatformRankings() {
       </div>
 
       {/* Keyword Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 plt-rank-3">
         {filteredKeywords.map((keyword) => (
-          <Card key={keyword.id} className="p-6 hover:shadow-lg transition-shadow">
+          <Card key={keyword.id} className="p-6 hover:shadow-lg transition-shadow pad-20 round-10 mb-25 bg-white">
             <div className="flex items-start justify-between mb-3">
               <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                 <Icon className="w-8 h-8 text-white" />

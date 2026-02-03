@@ -17,34 +17,34 @@ export function LocalGeoAnalysis() {
   ];
 
   return (
-    <div className="space-y-6">
-      <Card className="p-6 bg-gradient-to-r from-green-500 to-teal-600 text-white">
+    <div className="space-y-6 geo-local">
+      <Card className="p-6 bg-gradient-to-r from-green-500 to-teal-600 text-white pad-20 round-10 mb-25">
         <h2 className="text-2xl font-bold mb-2">Local & Geo-Based Analysis</h2>
         <p className="text-green-100">Geographic keyword performance and local pack presence</p>
       </Card>
 
       {/* Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="p-6">
-          <MapPin className="w-8 h-8 text-green-600 mb-3" />
-          <div className="text-sm text-gray-600">Local Keywords</div>
-          <div className="text-2xl font-bold text-gray-900 mt-1">{localKeywords.length}</div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-25 geo-local-box">
+        <Card className="p-6 pad-20 round-10">
+          <MapPin className="w-8 h-8 text-green-600 mb-3 mb-20" />
+          <div className="text-sm text-gray-600 mb-20">Local Keywords</div>
+          <div className="text-2xl font-bold text-gray-900 mt-1 mb-20">{localKeywords.length}</div>
           <TrendBadge trend="up" value={12} size="sm" />
         </Card>
-        <Card className="p-6">
-          <Navigation className="w-8 h-8 text-blue-600 mb-3" />
-          <div className="text-sm text-gray-600">Cities Tracked</div>
-          <div className="text-2xl font-bold text-gray-900 mt-1">{cities.length}</div>
+        <Card className="p-6 pad-20 round-10">
+          <Navigation className="w-8 h-8 text-blue-600 mb-3 mb-20" />
+          <div className="text-sm text-gray-600 mb-20">Cities Tracked</div>
+          <div className="text-2xl font-bold text-gray-900 mt-1 mb-20">{cities.length}</div>
         </Card>
-        <Card className="p-6">
-          <div className="text-sm text-gray-600">Local Pack Presence</div>
-          <div className="text-2xl font-bold text-gray-900 mt-1">87%</div>
+        <Card className="p-6 pad-20 round-10">
+          <div className="text-sm text-gray-600 mb-20">Local Pack Presence</div>
+          <div className="text-2xl font-bold text-gray-900 mt-1 mb-20">87%</div>
           <TrendBadge trend="up" value={8} size="sm" />
         </Card>
       </div>
 
       {/* Map Visualization (Placeholder) */}
-      <Card className="p-6">
+      <Card className="p-6 pad-20 round-10 mb-25 map-vis">
         <h3 className="font-semibold text-gray-900 mb-4">Geographic Distribution</h3>
         <div className="bg-gray-100 rounded-lg h-80 flex items-center justify-center">
           <div className="text-center">
@@ -56,9 +56,9 @@ export function LocalGeoAnalysis() {
       </Card>
 
       {/* City Grid View */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 grid-city mb-25">
         {cities.map((city, idx) => (
-          <Card key={idx} className="p-6">
+          <Card key={idx} className="p-6 pad-20 round-10">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
@@ -91,16 +91,16 @@ export function LocalGeoAnalysis() {
       </div>
 
       {/* Local Keywords List */}
-      <Card className="p-6">
+      <Card className="p-6 pad-20 round-10 local-key">
         <h3 className="font-semibold text-gray-900 mb-4">Local Keywords</h3>
-        <div className="space-y-3">
+        <div className="space-y-3 local-key-inner">
           {localKeywords.map((keyword) => (
-            <div key={keyword.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:border-green-300 hover:bg-green-50 transition-colors">
+            <div key={keyword.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:border-green-300 hover:bg-green-50 transition-colors pad-20 round-10">
               <div className="flex-1">
                 <p className="font-medium text-gray-900">{keyword.keyword}</p>
                 <p className="text-sm text-gray-500 mt-1">Appears in Local Pack</p>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="items-center gap-3">
                 <div className="text-right">
                   <div className="text-lg font-bold text-green-600">#{keyword.currentPosition}</div>
                   <TrendBadge trend={keyword.trend} size="sm" />
