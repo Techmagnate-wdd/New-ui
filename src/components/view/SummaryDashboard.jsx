@@ -31,31 +31,277 @@ import { TrendBadge } from "../common/TrendBadge";
 import { Badge } from "antd";
 import { KPICard } from "../common/KPICard";
 import { Card } from "../ui/card";
+import { useContext, useEffect, useState } from "react";
+import AuthContext from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { dashboardCount, getKeywordSummary, getProjects, getSerpFeatureSummary, getVisibilityTrend } from "../../services/api";
+import dayjs from "dayjs";
+import ProjectDropdown from "../../pages/Dashboard/ProjectDropdown";
+import { useFilter } from "../../context/SerpFilterContext";
+
+const FEATURE_MAP = {
+  featured_snippet: "Featured Snippet",
+  people_also_ask: "People Also Ask",
+  ai_overview: "AI Overview",
+  local_pack: "Local Pack",
+  app_pack: "App Pack",
+  video_pack: "Video Pack",
+  image_pack: "Image Pack",
+  short_videos: "Short Videos",
+  discussions_forums: "Discussions & Forums",
+  shopping: "Shopping",
+  top_stories: "Top Stories"
+};
 
 export function SummaryDashboard() {
+  const { user } = useContext(AuthContext);
+  const userRole = user?.role || "";
+  const navigate = useNavigate();
+
+  const [projects, setProjects] = useState([]);
+  const [loadingProjects, setLoadingProjects] = useState(false);
+  const [loading, setLoading] = useState(false)
+
+  const [totalKeywords, setTotalKeywords] = useState({});
+  const [withoutChangesKeywords, setWithoutChangesKeywords] = useState({});
+  const [droppedKeywords, setDroppedKeywords] = useState({});
+  const [lostKeywords, setLostKeywords] = useState({});
+  const [raisedKeywords, setRaisedKeywords] = useState({});
+  const [newKeywords, setNewKeywords] = useState({});
+  const [averagePosition, setAveragePosition] = useState({});
+  const [serpDistribution, setSerpDistribution] = useState([]);
+  const [serpFeatures, setSerpFeatures] = useState([]);
+  const [featureCoverage, setFeatureCoverage] = useState([]);
+  const [AIVisibiltyScore, setAIVisibiltyScore] = useState(0);
+  const [rankingTrendData, setRankingTrendData] = useState([]);
+  const { filter,setFilter } = useFilter();
+
+  console.log(filter, "current filter in summary dashboard")
+
+  // Load user projects
+  useEffect(() => {
+    if (user) {
+      const userId = user?._id;
+      setFilter((prev) => ({ ...prev, user: userId }));
+      fetchProjects(userId);
+    } else {
+      navigate("/login");
+    }
+  }, [user]);
+
+  const fetchProjects = async (userId) => {
+    setLoadingProjects(true);
+    try {
+      const res = await getProjects({ user: userId });
+      setProjects(res.data.projects || []);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingProjects(false);
+    }
+  };
+  // Set default project when list arrives
+  useEffect(() => {
+    if (projects.length) {
+      const defaultProject = projects[0]._id;
+      setFilter((prev) => ({ ...prev, project: defaultProject }));
+    }
+  }, [projects, userRole]);
+
+  // Fetch dashboard data whenever the project or dates change
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!filter.project) return;
+      setLoading(true)
+      try {
+        // const startDate = filter.dateRange[0]
+        //   ? dayjs(filter.dateRange[0]).format("YYYY-MM-DD")
+        //   : "";
+        // const endDate = filter.dateRange[1]
+        //   ? dayjs(filter.dateRange[1]).format("YYYY-MM-DD")
+        //   : "";
+
+        console.log(filter.project, "fetching data params")
+
+        const res = await getKeywordSummary(filter);
+        const data = res.data;
+        setTotalKeywords(data.total_keywords || 0);
+        setWithoutChangesKeywords(data.without_changes || 0);
+        setRaisedKeywords(data.raised || 0);
+        setDroppedKeywords(data.dropped || 0);
+        setLostKeywords(data.lost || 0);
+        setNewKeywords(data.new_keywords || 0);
+        setAveragePosition(data.average_position || 0);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false)
+      }
+    };
+    fetchData();
+  }, [filter]);
+
+  // Fetch dashboard data whenever the project or dates change
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!filter.project) return;
+      setLoading(true)
+      try {
+        const res = await getSerpFeatureSummary(filter);
+        const data = res?.data;
+
+        const featureArray = Object.entries(data?.features || {}).map(
+          ([feature, values]) => ({
+            feature,
+            opportunity_keywords: values.opportunity_keywords,
+            ranked_keywords: values.ranked_keywords,
+            coverage: values.coverage
+          })
+        );
+
+        let ai_visibility = featureArray.find((f => f.feature === 'ai_overview'));
+        let ai_visibility_coverage = ai_visibility ? (ai_visibility.ranked_keywords * 100) / ai_visibility.opportunity_keywords : 0;
+        setAIVisibiltyScore(Math.round(ai_visibility_coverage));
+
+        // Sum across all features
+        const totals = featureArray.reduce(
+          (acc, feature) => {
+            acc.opportunity += feature.opportunity_keywords || 0;
+            acc.ranked += feature.ranked_keywords || 0;
+            return acc;
+          },
+          { opportunity: 0, ranked: 0 }
+        );
+
+        // Final overall coverage %
+        const overallCoverage =
+          totals.opportunity > 0
+            ? Math.round((totals.ranked / totals.opportunity) * 100)
+            : 0;
+
+        setFeatureCoverage(overallCoverage);
+
+        let distribution = data?.distribution || null;
+        setSerpFeatures(featureArray);
+        setSerpDistribution(distribution);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false)
+      }
+    };
+    fetchData();
+  }, [filter]);
+
+  // Fetch dashboard data whenever the project or dates change
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!filter.project) return;
+      setLoading(true)
+      try {
+        const res = await getVisibilityTrend(filter);
+        const data = res?.data;
+        console.log(data, "visibility trend data")
+        setRankingTrendData(data.data || []);
+
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false)
+      }
+    };
+    fetchData();
+  }, [filter]);
+
+
+  // helper
+  const getCoveragePercent = (f) => {
+    if (!f?.opportunity_keywords) return 0;
+    return Math.round((f.ranked_keywords / f.opportunity_keywords) * 100);
+  };
+
+  // sort once
+  const sortedFeatures = [...serpFeatures].sort(
+    (a, b) => getCoveragePercent(b) - getCoveragePercent(a)
+  );
+
+
   return (
     <div className="">
+      <div className="flex items-center mb-8">
+        <div>
+          <ProjectDropdown
+            title="Projects"
+            value={filter.project}
+            loading={loadingProjects}
+            projects={projects}
+            onChange={(value) =>
+              setFilter((prev) => ({ ...prev, project: value }))
+            }
+          />
+        </div>
+      </div>
       {/* KPI Cards */}
       <div className="submit-dash">
         <KPICard
-          title="Total Keywords Tracked"
-          value={156}
-          change={8}
-          trend="up"
+          title="All Keywords"
+          value={totalKeywords.value}
+          change={totalKeywords.change}
+          trend={totalKeywords.trend}
+          icon={Search}
+          iconColor="text-blue-600"
+        />
+        <KPICard
+          title="Without Changes"
+          value={withoutChangesKeywords.value}
+          change={withoutChangesKeywords.change}
+          trend={withoutChangesKeywords.trend}
+          icon={Search}
+          iconColor="text-blue-600"
+        />
+        <KPICard
+          title="Dropped"
+          value={droppedKeywords.value}
+          change={droppedKeywords.change}
+          trend={droppedKeywords.trend}
+          icon={Search}
+          iconColor="text-blue-600"
+        />
+        <KPICard
+          title="Lost"
+          value={lostKeywords.value}
+          change={lostKeywords.change}
+          trend={lostKeywords.trend}
+          icon={Search}
+          iconColor="text-blue-600"
+        />
+        <KPICard
+          title="Raised"
+          value={raisedKeywords.value}
+          change={raisedKeywords.change}
+          trend={raisedKeywords.trend}
+          icon={Search}
+          iconColor="text-blue-600"
+        />
+        <KPICard
+          title="New Keywords"
+          value={newKeywords.value}
+          change={newKeywords.change}
+          trend={newKeywords.trend}
           icon={Search}
           iconColor="text-blue-600"
         />
         <KPICard
           title="Average Position"
-          value={4.2}
-          change={-5}
-          trend="up"
+          value={averagePosition.value}
+          change={averagePosition.change}
+          trend={averagePosition.trend}
           icon={TrendingUp}
           iconColor="text-green-600"
         />
         <KPICard
           title="SERP Feature Coverage"
-          value="68%"
+          value={`${featureCoverage}%`}
           change={12}
           trend="up"
           icon={Star}
@@ -63,7 +309,7 @@ export function SummaryDashboard() {
         />
         <KPICard
           title="AI Visibility Score"
-          value="73%"
+          value={`${AIVisibiltyScore}%`}
           change={15}
           trend="up"
           icon={Sparkles}
@@ -111,32 +357,39 @@ export function SummaryDashboard() {
             SERP Feature Coverage
           </h3>
           <div className="space-y-3">
-            {mockSerpFeatures.slice(0, 6).map((feature) => (
+            {sortedFeatures.map((feature) => (
               <div
-                key={feature.name}
-                className="dis-flex align-items-center mb-10"
+                key={feature.feature}
+                className="dis-flex align-items-center justify-between mb-10"
               >
+                {/* LEFT SIDE */}
                 <div className="dis-flex align-items-center">
                   <div className="start-lft">
                     <Star className="w-5 h-5 text-blue-600" />
                   </div>
+
                   <div className="start-rght">
                     <p className="text-sm font-medium text-gray-900">
-                      {feature.name}
+                      {FEATURE_MAP[feature.feature]}
                     </p>
+
                     <p className="text-xs text-gray-500">
-                      {feature.count} keywords
+                      {feature.opportunity_keywords} keywords
                     </p>
                   </div>
                 </div>
-                <div className="dis-flex per-side align-items-center">
-                  <span className="text-sm font-semibold text-gray-900">
-                    {feature.percentage}%
+
+                {/* RIGHT SIDE */}
+                <div className="dis-flex align-items-center gap-2">
+                  <span className="coverage-pill">
+                    {getCoveragePercent(feature)}%
                   </span>
+
                   <TrendBadge trend={feature.trend} size="sm" />
                 </div>
               </div>
             ))}
+
           </div>
         </Card>
 
@@ -148,7 +401,7 @@ export function SummaryDashboard() {
           <ResponsiveContainer width="100%" height={280}>
             <PieChart>
               <Pie
-                data={serpFeatureDistribution}
+                data={serpDistribution}
                 cx="50%"
                 cy="50%"
                 labelLine={false}
@@ -170,7 +423,7 @@ export function SummaryDashboard() {
       </div>
 
       {/* Platform Presence */}
-      <Card className="round-10 pad-20 mb-25 bg-white">
+      {/* <Card className="round-10 pad-20 mb-25 bg-white">
         <h3 className="text-lg font-semibold text-gray-900 mb-25">
           Platform Presence
         </h3>
@@ -198,10 +451,10 @@ export function SummaryDashboard() {
             </div>
           ))}
         </div>
-      </Card>
+      </Card> */}
 
       {/* Alert Highlights */}
-      <Card className="round-10 pad-20 mb-25 bg-white">
+      {/* <Card className="round-10 pad-20 mb-25 bg-white">
         <div className="flex items-center justify-between mb-25">
           <h3 className="text-lg font-semibold text-gray-900">Recent Alerts</h3>
           <Badge color="blue">{mockAlerts.length} active</Badge>
@@ -260,18 +513,18 @@ export function SummaryDashboard() {
                       <span className="font-medium">{alert.keyword}</span>
                     </p>
                   </div>
-                  </div>
-                  <div className="">
-                    <span className="text-xs text-gray-500 whitespace-nowrap">
-                      {alert.timestamp}
-                    </span>
-                  </div>
-                
+                </div>
+                <div className="">
+                  <span className="text-xs text-gray-500 whitespace-nowrap">
+                    {alert.timestamp}
+                  </span>
+                </div>
+
               </div>
             );
           })}
         </div>
-      </Card>
+      </Card> */}
     </div>
   );
 }

@@ -60,9 +60,6 @@ const DashBoardLayerOne = () => {
       setLoadingProjects(false);
     }
   };
-
-
-
   // Set default project when list arrives
   useEffect(() => {
     if (projects.length) {

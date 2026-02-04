@@ -6,6 +6,10 @@ import AuthContext from "../context/AuthContext";
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import WriteSonicDashboard from "../pages/LLM/WriteSonicDashboard";
 import { useLLM } from "../context/LLMContext";
+import { useFilter } from "../context/SerpFilterContext";
+import FilterComponent from "../pages/SerpFeatures/FilterComponent";
+import { getProjects } from "../services/api";
+import SerpFilterComponent from "../pages/SerpFeatures/SerpFilterComponent";
 
 const MasterLayout = ({ children }) => {
   let [sidebarActive, setSidebarActive] = useState(false);
@@ -17,9 +21,9 @@ const MasterLayout = ({ children }) => {
   const isAdmin = user?.role === "admin";
   const { totalAnswers, llmProjectId, promptsSelectedDate } = useLLM();
   const navigate = useNavigate()
-
   const location = useLocation();
-
+  const { filter, setFilter } = useFilter();
+  const [selectedProjectData, setSelectedProjectData] = useState([]);
   // useEffect(() => {
   let writesonicStyle = location.pathname.startsWith("/llm-dashboard") ? "" : "dashboard-main-body"
   // }, [location])
@@ -1550,6 +1554,59 @@ const MasterLayout = ({ children }) => {
                 </div>
               </>
             )}
+
+            {/* Reusable Filter Component */}
+            {location.pathname === "/summary-dashboard" && (
+              <SerpFilterComponent
+                user={user}
+                filter={filter}
+                setFilter={setFilter}
+                // onFilterChange={handleFilterChange}
+                projectData={selectedProjectData}
+                showStats={false}
+              />
+            )}
+
+            {/* {location.pathname === "/summary-dashboard" && (
+              <>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    width: "auto",
+                    border: "1px solid grey",
+                    borderRadius: "5px",
+                    padding: "4px 10px",
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "relative",
+                      width: "22px",
+                      height: "10px",
+                      border: "1.8px solid #555",
+                      borderRadius: "2px",
+                      padding: "1px",
+                      boxSizing: "border-box",
+                    }}
+                  >
+                  </div>
+
+                  <div style={{ fontSize: "13px", cursor: "pointer" }}
+                  >
+                    <SerpFilterComponent
+                      user={user}
+                      filter={filter}
+                      setFilter={setFilter}
+                      // onFilterChange={handleFilterChange}
+                      projectData={selectedProjectData}
+                      showStats={false}
+                    />
+                  </div>
+                </div>
+              </>
+            )} */}
 
             <div className="col-auto">
               <div className="d-flex flex-wrap align-items-center gap-3">
