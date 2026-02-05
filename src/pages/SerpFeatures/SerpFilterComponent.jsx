@@ -157,13 +157,13 @@ const SerpFilterComponent = ({
     }, [setFilter]);
 
     return (
-        <div className="card shadow-sm">
-            <div className="card-body">
+        <div className="col-auto ms-auto custom-filters">
+            <div className="">
                 {/* Filter Controls */}
                 <div className="row gy-3 gx-3 align-items-end">
                     {/* Project */}
-                    <div className="col-md-3">
-                        <label className="form-label fw-semibold">Project</label>
+                    <div className="col-auto">
+                        {/* <label className="form-label fw-semibold">Project</label> */}
                         <select
                             className="form-control"
                             value={filter.project}
@@ -178,7 +178,7 @@ const SerpFilterComponent = ({
                             }
                             disabled={loading}
                         >
-                            <option value="">Select Project</option>
+                            <option value="">Projects</option>
                             {projects.map((p) => (
                                 <option key={p._id} value={p._id}>
                                     {p.project_name}
@@ -188,10 +188,10 @@ const SerpFilterComponent = ({
                     </div>
 
                     {/* BRAND */}
-                    <div className="col-md-3">
-                        <label htmlFor="brandSelect" className="form-label fw-semibold">
+                    <div className="col-auto">
+                        {/* <label htmlFor="brandSelect" className="form-label fw-semibold">
                             Brand
-                        </label>
+                        </label> */}
                         <select
                             id="brandSelect"
                             className="form-control"
@@ -207,7 +207,7 @@ const SerpFilterComponent = ({
                             }
                             }
                         >
-                            <option value="">All</option>
+                            <option value="">Brand</option>
                             {/* {brands.map((b, idx) => (
                   <option key={idx} value={b}>
                     {b}
@@ -223,13 +223,13 @@ const SerpFilterComponent = ({
                     </div>
 
                     {/* CATEGORY */}
-                    <div className="col-md-3">
-                        <label
+                    <div className="col-auto">
+                        {/* <label
                             htmlFor="categorySelect"
                             className="form-label fw-semibold"
                         >
                             Category
-                        </label>
+                        </label> */}
                         <select
                             id="categorySelect"
                             className="form-control"
@@ -244,7 +244,7 @@ const SerpFilterComponent = ({
 
                             }}
                         >
-                            <option value="">All</option>
+                            <option value="">Category</option>
                             {categories.map((c, i) => (
                                 <option
                                     key={i}
@@ -260,13 +260,13 @@ const SerpFilterComponent = ({
                     </div>
 
                     {/* SUBCATEGORY */}
-                    <div className="col-md-3">
-                        <label
+                    <div className="col-auto">
+                        {/* <label
                             htmlFor="subCategorySelect"
                             className="form-label fw-semibold"
                         >
                             Sub Category
-                        </label>
+                        </label> */}
                         <select
                             id="subCategorySelect"
                             className="form-control"
@@ -279,7 +279,7 @@ const SerpFilterComponent = ({
                                 }))
                             }}
                         >
-                            <option value="">All</option>
+                            <option value="">Sub Category</option>
                             {subCategory.map((sc, idx) => (
                                 <option key={idx} value={sc}>
                                     {sc}
@@ -289,12 +289,12 @@ const SerpFilterComponent = ({
                     </div>
 
                     {/* Date */}
-                    <div className="col-md-4">
-                        <label className="form-label fw-semibold">Date</label>
+                    {/* <label className="form-label fw-semibold">Date</label> */}
+                    {/* <div className="col-auto">
                         <input
                             type="date"
                             className="form-control"
-                            value={filter.startDate}
+                            value={filter.startDate || "Start Date"}
                             onChange={(e) =>
                                 setFilter((prev) => ({
                                     ...prev,
@@ -303,14 +303,32 @@ const SerpFilterComponent = ({
                             }
                             disabled={loading}
                         />
-                    </div>
+                    </div> */}
 
-                    <div className="col-md-4">
-                        <label className="form-label fw-semibold">Date</label>
+                    <div className="col-auto position-relative">
                         <input
                             type="date"
-                            className="form-control"
-                            value={filter.endDate}
+                            className={`form-control ${!filter.startDate ? "hide-date-text" : ""}`}
+                            value={filter.startDate || ""}
+                            onChange={(e) =>
+                                setFilter((prev) => ({
+                                    ...prev,
+                                    startDate: e.target.value,
+                                }))
+                            }
+                            disabled={loading}
+                        />
+
+                        {!filter.startDate && (
+                            <span className="fake-placeholder">Start Date</span>
+                        )}
+                    </div>
+
+                    <div className="col-auto position-relative">
+                        <input
+                            type="date"
+                            className={`form-control ${!filter.endDate ? "hide-date-text" : ""}`}
+                            value={filter.endDate || ""}
                             onChange={(e) =>
                                 setFilter((prev) => ({
                                     ...prev,
@@ -319,10 +337,31 @@ const SerpFilterComponent = ({
                             }
                             disabled={loading}
                         />
+
+                        {!filter.endDate && (
+                            <span className="fake-placeholder">End Date</span>
+                        )}
                     </div>
 
+
+                    {/* <label className="form-label fw-semibold">Date</label> */}
+                    {/* <div className="col-auto">
+                        <input
+                            type="date"
+                            className="form-control"
+                            value={filter.endDate || "End Date"}
+                            onChange={(e) =>
+                                setFilter((prev) => ({
+                                    ...prev,
+                                    endDate: e.target.value,
+                                }))
+                            }
+                            disabled={loading}
+                        />
+                    </div> */}
+
                     {/* Reset Button */}
-                    <div className="col-md-2 align-items-end pt-6">
+                    <div className="col-auto align-items-end pt-6">
                         <button
                             className="btn btn-secondary w-100"
                             onClick={handleReset}

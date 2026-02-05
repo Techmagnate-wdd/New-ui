@@ -1555,58 +1555,18 @@ const MasterLayout = ({ children }) => {
               </>
             )}
 
-            {/* Reusable Filter Component */}
-            {location.pathname === "/summary-dashboard" && (
-              <SerpFilterComponent
-                user={user}
-                filter={filter}
-                setFilter={setFilter}
-                // onFilterChange={handleFilterChange}
-                projectData={selectedProjectData}
-                showStats={false}
-              />
-            )}
+            {(
+              location.pathname === "/summary-dashboard" ||
+              location.pathname === "/keyword-overview") && (
+                <SerpFilterComponent
+                  user={user}
+                  filter={filter}
+                  setFilter={setFilter}
+                  projectData={selectedProjectData}
+                  showStats={false}
+                />
+              )}
 
-            {/* {location.pathname === "/summary-dashboard" && (
-              <>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    width: "auto",
-                    border: "1px solid grey",
-                    borderRadius: "5px",
-                    padding: "4px 10px",
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "relative",
-                      width: "22px",
-                      height: "10px",
-                      border: "1.8px solid #555",
-                      borderRadius: "2px",
-                      padding: "1px",
-                      boxSizing: "border-box",
-                    }}
-                  >
-                  </div>
-
-                  <div style={{ fontSize: "13px", cursor: "pointer" }}
-                  >
-                    <SerpFilterComponent
-                      user={user}
-                      filter={filter}
-                      setFilter={setFilter}
-                      // onFilterChange={handleFilterChange}
-                      projectData={selectedProjectData}
-                      showStats={false}
-                    />
-                  </div>
-                </div>
-              </>
-            )} */}
 
             <div className="col-auto">
               <div className="d-flex flex-wrap align-items-center gap-3">
@@ -2159,11 +2119,11 @@ const MasterLayout = ({ children }) => {
 
 
 
-                <div>
+                {/* <div>
                   <span style={{ color: "black" }}>
                     {user?.firstName} {user?.lastName}
                   </span>
-                </div>
+                </div> */}
 
                 <div className="dropdown">
                   <button

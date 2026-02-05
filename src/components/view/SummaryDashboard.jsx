@@ -19,25 +19,31 @@ import {
   Pie,
   Cell,
   Legend,
+  Bar,
+  ComposedChart
 } from "recharts";
 import {
   mockAlerts,
   mockPlatforms,
   mockSerpFeatures,
-  rankingTrendData,
+  // rankingTrendData,
   serpFeatureDistribution,
 } from "../data/mockData";
 import { TrendBadge } from "../common/TrendBadge";
 import { Badge } from "antd";
 import { KPICard } from "../common/KPICard";
 import { Card } from "../ui/card";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { dashboardCount, getKeywordSummary, getProjects, getSerpFeatureSummary, getVisibilityTrend } from "../../services/api";
 import dayjs from "dayjs";
 import ProjectDropdown from "../../pages/Dashboard/ProjectDropdown";
 import { useFilter } from "../../context/SerpFilterContext";
+import { DASHBOARD_TOOLTIPS } from "../../Constants";
+import { InfoTooltip } from "../InfoTooltip";
+import TooltipIcon from "../../pages/LLM/ToolTipIcon";
+import { CustomLegend } from "../CustomLegend";
 
 const FEATURE_MAP = {
   featured_snippet: "Featured Snippet",
@@ -52,6 +58,7 @@ const FEATURE_MAP = {
   shopping: "Shopping",
   top_stories: "Top Stories"
 };
+
 
 export function SummaryDashboard() {
   const { user } = useContext(AuthContext);
@@ -74,9 +81,8 @@ export function SummaryDashboard() {
   const [featureCoverage, setFeatureCoverage] = useState([]);
   const [AIVisibiltyScore, setAIVisibiltyScore] = useState(0);
   const [rankingTrendData, setRankingTrendData] = useState([]);
-  const { filter,setFilter } = useFilter();
-
-  console.log(filter, "current filter in summary dashboard")
+  const [featureTrends, setFeatureTrends] = useState([]);
+  const { filter, setFilter } = useFilter();
 
   // Load user projects
   useEffect(() => {
@@ -114,15 +120,6 @@ export function SummaryDashboard() {
       if (!filter.project) return;
       setLoading(true)
       try {
-        // const startDate = filter.dateRange[0]
-        //   ? dayjs(filter.dateRange[0]).format("YYYY-MM-DD")
-        //   : "";
-        // const endDate = filter.dateRange[1]
-        //   ? dayjs(filter.dateRange[1]).format("YYYY-MM-DD")
-        //   : "";
-
-        console.log(filter.project, "fetching data params")
-
         const res = await getKeywordSummary(filter);
         const data = res.data;
         setTotalKeywords(data.total_keywords || 0);
@@ -159,6 +156,15 @@ export function SummaryDashboard() {
           })
         );
 
+
+        const featureTrendArray = Object.entries(data?.trends || {}).map(
+          ([feature, values]) => ({
+            feature,
+            percentage_change: values.percentage_change,
+          })
+        );
+        setFeatureTrends(featureTrendArray);
+
         let ai_visibility = featureArray.find((f => f.feature === 'ai_overview'));
         let ai_visibility_coverage = ai_visibility ? (ai_visibility.ranked_keywords * 100) / ai_visibility.opportunity_keywords : 0;
         setAIVisibiltyScore(Math.round(ai_visibility_coverage));
@@ -193,25 +199,67 @@ export function SummaryDashboard() {
     fetchData();
   }, [filter]);
 
-  // Fetch dashboard data whenever the project or dates change
+  // // Fetch dashboard data whenever the project or dates change
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (!filter.project) return;
+  //     setLoading(true)
+  //     try {
+  //       const res = await getVisibilityTrend(filter);
+  //       const data = res?.data;
+  //       console.log(data, "visibility trend data")
+  //       const chartData = data.map((item) => ({
+  //         ...item,
+  //         top1: item.rankDistribution?.top1 || 0,
+  //         top2_3: item.rankDistribution?.top2_3 || 0,
+  //         top4_5: item.rankDistribution?.top4_5 || 0,
+  //         top6_10: item.rankDistribution?.top6_10 || 0,
+  //         outOf10: item.rankDistribution?.outOf10 || 0,
+  //       }));
+  //       setRankingTrendData(data.data || []);
+
+  //     } catch (err) {
+  //       console.error(err);
+  //     } finally {
+  //       setLoading(false)
+  //     }
+  //   };
+  //   fetchData();
+  // }, [filter]);
+
+  // Fetch visibility + ranking distribution trend
+  // Fetch visibility + ranking distribution trend
   useEffect(() => {
     const fetchData = async () => {
       if (!filter.project) return;
-      setLoading(true)
+
+      setLoading(true);
       try {
         const res = await getVisibilityTrend(filter);
-        const data = res?.data;
-        console.log(data, "visibility trend data")
-        setRankingTrendData(data.data || []);
 
+        // API -> { success:true, data:[...] }
+        const apiData = res?.data?.data || [];
+
+        const chartData = apiData.map((item) => ({
+          ...item,
+          top1: item.rankDistribution?.top1 ?? 0,
+          top2_3: item.rankDistribution?.top2_3 ?? 0,
+          top4_5: item.rankDistribution?.top4_5 ?? 0,
+          top6_10: item.rankDistribution?.top6_10 ?? 0,
+          outOf10: item.rankDistribution?.outOf10 ?? 0,
+        }));
+
+        setRankingTrendData(chartData);
       } catch (err) {
         console.error(err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     };
+
     fetchData();
-  }, [filter]);
+  }, [filter.project]);
+
 
 
   // helper
@@ -220,39 +268,39 @@ export function SummaryDashboard() {
     return Math.round((f.ranked_keywords / f.opportunity_keywords) * 100);
   };
 
-  // sort once
-  const sortedFeatures = [...serpFeatures].sort(
-    (a, b) => getCoveragePercent(b) - getCoveragePercent(a)
-  );
+  const sortedFeatures = useMemo(() => {
+    return [...serpFeatures].sort(
+      (a, b) => getCoveragePercent(b) - getCoveragePercent(a)
+    );
+  }, [serpFeatures]);
 
+  // sort once
+  // const sortedFeatures = [...serpFeatures].sort(
+  //   (a, b) => getCoveragePercent(b) - getCoveragePercent(a)
+  // );
+
+
+  const getFeatureTrend = (featureKey) => {
+    if (!Array.isArray(featureTrends)) return null;
+    return featureTrends.find((f) => f.feature === featureKey);
+  };
 
   return (
     <div className="">
-      <div className="flex items-center mb-8">
-        <div>
-          <ProjectDropdown
-            title="Projects"
-            value={filter.project}
-            loading={loadingProjects}
-            projects={projects}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, project: value }))
-            }
-          />
-        </div>
-      </div>
-      {/* KPI Cards */}
-      <div className="submit-dash">
+      <div className="submit-dash flex-wrap">
         <KPICard
           title="All Keywords"
+          tooltipTitle={DASHBOARD_TOOLTIPS.allKeywords}
           value={totalKeywords.value}
           change={totalKeywords.change}
           trend={totalKeywords.trend}
           icon={Search}
           iconColor="text-blue-600"
         />
+
         <KPICard
           title="Without Changes"
+          tooltipTitle={DASHBOARD_TOOLTIPS.withoutChanges}
           value={withoutChangesKeywords.value}
           change={withoutChangesKeywords.change}
           trend={withoutChangesKeywords.trend}
@@ -261,6 +309,7 @@ export function SummaryDashboard() {
         />
         <KPICard
           title="Dropped"
+          tooltipTitle={DASHBOARD_TOOLTIPS.droppedKeywords}
           value={droppedKeywords.value}
           change={droppedKeywords.change}
           trend={droppedKeywords.trend}
@@ -269,6 +318,7 @@ export function SummaryDashboard() {
         />
         <KPICard
           title="Lost"
+          tooltipTitle={DASHBOARD_TOOLTIPS.lostKeywords}
           value={lostKeywords.value}
           change={lostKeywords.change}
           trend={lostKeywords.trend}
@@ -277,6 +327,7 @@ export function SummaryDashboard() {
         />
         <KPICard
           title="Raised"
+          tooltipTitle={DASHBOARD_TOOLTIPS.raisedKeywords}
           value={raisedKeywords.value}
           change={raisedKeywords.change}
           trend={raisedKeywords.trend}
@@ -285,6 +336,7 @@ export function SummaryDashboard() {
         />
         <KPICard
           title="New Keywords"
+          tooltipTitle={DASHBOARD_TOOLTIPS.newKeywords}
           value={newKeywords.value}
           change={newKeywords.change}
           trend={newKeywords.trend}
@@ -293,6 +345,7 @@ export function SummaryDashboard() {
         />
         <KPICard
           title="Average Position"
+          tooltipTitle={DASHBOARD_TOOLTIPS.averagePosition}
           value={averagePosition.value}
           change={averagePosition.change}
           trend={averagePosition.trend}
@@ -301,6 +354,7 @@ export function SummaryDashboard() {
         />
         <KPICard
           title="SERP Feature Coverage"
+          tooltipTitle={DASHBOARD_TOOLTIPS.serpFeatureCoverage}
           value={`${featureCoverage}%`}
           change={12}
           trend="up"
@@ -308,6 +362,7 @@ export function SummaryDashboard() {
           iconColor="text-yellow-600"
         />
         <KPICard
+          tooltipTitle={DASHBOARD_TOOLTIPS.aiVisibilityScore}
           title="AI Visibility Score"
           value={`${AIVisibiltyScore}%`}
           change={15}
@@ -322,14 +377,15 @@ export function SummaryDashboard() {
         <h3 className="text-lg font-semibold text-gray-900 fw-700 mb-25">
           Ranking Trend
         </h3>
-        <ResponsiveContainer width="100%" height={300}>
+
+        {/* <ResponsiveContainer width="100%" height={300}>
           <LineChart data={rankingTrendData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis yAxisId="left" orientation="left" stroke="#3b82f6" />
             <YAxis yAxisId="right" orientation="right" stroke="#10b981" />
             <Tooltip />
-            <Legend />
+            <Legend content={<CustomLegend tooltipTitle={DASHBOARD_TOOLTIPS.rankingTrendVisibility} />} />
             <Line
               yAxisId="left"
               type="monotone"
@@ -347,6 +403,94 @@ export function SummaryDashboard() {
               name="Visibility %"
             />
           </LineChart>
+        </ResponsiveContainer> */}
+
+        <ResponsiveContainer width="100%" height={350}>
+          <ComposedChart data={rankingTrendData}>
+            <CartesianGrid strokeDasharray="3 3" />
+
+            <XAxis dataKey="date" />
+
+            {/* LEFT AXIS → Avg Position */}
+            <YAxis
+              yAxisId="left"
+              orientation="left"
+              stroke="#3b82f6"
+              label={{ value: 'Avg Position', angle: -90, position: 'insideLeft' }}
+            />
+
+            {/* RIGHT AXIS → Visibility */}
+            <YAxis
+              yAxisId="right"
+              orientation="right"
+              stroke="#10b981"
+              label={{ value: 'Visibility %', angle: 90, position: 'insideRight' }}
+            />
+
+            {/* HIDDEN AXIS FOR BARS */}
+            <YAxis yAxisId="bar" hide />
+
+            <Tooltip />
+            <Legend wrapperStyle={{ paddingTop: '20px' }} />
+
+            {/* ===== STACKED BARS (RANK DISTRIBUTION) ===== */}
+            <Bar
+              yAxisId="bar"
+              dataKey="top1"
+              stackId="rank"
+              fill="#16a34a"
+              name="Top 1"
+            />
+            <Bar
+              yAxisId="bar"
+              dataKey="top2_3"
+              stackId="rank"
+              fill="#22c55e"
+              name="Top 2-3"
+            />
+            <Bar
+              yAxisId="bar"
+              dataKey="top4_5"
+              stackId="rank"
+              fill="#3b82f6"
+              name="Top 4-5"
+            />
+            <Bar
+              yAxisId="bar"
+              dataKey="top6_10"
+              stackId="rank"
+              fill="#f59e0b"
+              name="Top 6-10"
+            />
+            <Bar
+              yAxisId="bar"
+              dataKey="outOf10"
+              stackId="rank"
+              fill="#ef4444"
+              name="> 10"
+            />
+
+            {/* ===== LINES ===== */}
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="avgPosition"
+              stroke="#3b82f6"
+              strokeWidth={2}
+              name="Avg Position"
+              dot={{ r: 4 }}
+            />
+
+            <Line
+              yAxisId="right"
+              type="monotone"
+              dataKey="visibility"
+              stroke="#10b981"
+              strokeWidth={2}
+              name="Visibility %"
+              dot={{ r: 4 }}
+            />
+          </ComposedChart>
         </ResponsiveContainer>
       </Card>
 
@@ -385,7 +529,23 @@ export function SummaryDashboard() {
                     {getCoveragePercent(feature)}%
                   </span>
 
-                  <TrendBadge trend={feature.trend} size="sm" />
+                  {(() => {
+                    const trendObj = getFeatureTrend(feature.feature);
+
+                    return (
+                      <TrendBadge
+                        trend={
+                          trendObj?.percentage_change > 0
+                            ? "up"
+                            : trendObj?.percentage_change < 0
+                              ? "down"
+                              : "flat"
+                        }
+                        size="sm"
+                      />
+                    );
+                  })()}
+
                 </div>
               </div>
             ))}

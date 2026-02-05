@@ -233,12 +233,12 @@ h6 {
 .submit-dash {
     display: flex;
     /* flex-wrap: wrap; */
-    gap: 15px;
-    justify-content: space-between;
+    gap: 10px;
+    /* justify-content: space-between; */
     margin-bottom: 25px;
 }
 .submit-dash .text-card-foreground {
-    width: 24%;
+    width: 19%;
     border-radius: 10px;
     padding: 15px !important;
     background: #fff;
@@ -252,12 +252,20 @@ h6 {
     font-weight: 700;
 }
 .submit-dash .text-card-foreground .flex .flex-1 .inline-flex {
-    background: #c3ffd5;
     width: max-content;
     padding: 3px 10px !important;
     border-radius: 23px;
     align-items: center;
     display: flex;
+}
+.submit-dash .text-card-foreground .flex .flex-1 .inline-flex.text-yellow-600{
+    background: #ffdb0591;
+}
+.submit-dash .text-card-foreground .flex .flex-1 .inline-flex.text-red-600{
+    background: #ffc9c9;
+}
+.submit-dash .text-card-foreground .flex .flex-1 .inline-flex.text-green-600{
+    background: #76ffa0a1;
 }
 .submit-dash .text-card-foreground .flex .flex-1 .inline-flex svg {
     max-width: 20px !important;
@@ -498,6 +506,9 @@ h6 {
     color: #000000;
     cursor: pointer;
     font-size: 12px;
+}
+.ser-field span.active {
+    background: #eae2e2;
 }
 .ser-field span:hover {
     background: #f1f1f1;
@@ -1248,6 +1259,36 @@ span.ant-badge.clr-blk {
     background: #f9fafb;
 }
 
+.custom-filters select.form-control {
+    padding: 7px 17px;
+    height: auto;
+}
+.custom-filters input.form-control {
+    padding: 7px 17px;
+    height: auto;
+}
+.custom-filters .col-auto {
+    margin-top: 7px;
+}
+body {.hide-date-text {
+  color: transparent;
+}
+.hide-date-text::-webkit-datetime-edit {
+  color: transparent;
+}
+.hide-date-text::-webkit-calendar-picker-indicator {
+  opacity: 1;
+}
+.fake-placeholder {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-48%);
+  color: #374151;
+  pointer-events: none;
+  font-size: 13px;
+}
+}
 
 
 
