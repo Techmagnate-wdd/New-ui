@@ -5,6 +5,21 @@ import {
   Sparkles,
   AlertTriangle,
   ArrowUpCircle,
+  Hash,
+  MinusCircle,
+  ArrowDownCircle,
+  XCircle,
+  PlusCircle,
+  Layers,
+  PlayCircle,
+  Smartphone,
+  MapPin,
+  MessageCircleQuestion,
+  Film,
+  ShoppingCart,
+  Newspaper,
+  MessagesSquare,
+  Image,
 } from "lucide-react";
 
 import {
@@ -30,13 +45,13 @@ import {
   serpFeatureDistribution,
 } from "../data/mockData";
 import { TrendBadge } from "../common/TrendBadge";
-import { Badge } from "antd";
+import { Badge, Table } from "antd";
 import { KPICard } from "../common/KPICard";
 import { Card } from "../ui/card";
 import { useContext, useEffect, useMemo, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { dashboardCount, getKeywordSummary, getProjects, getSerpFeatureSummary, getVisibilityTrend } from "../../services/api";
+import { dashboardCount, getKeywordSummary, getProjects, getSerpFeatureSummary, getSovDashboard, getVisibilityTrend } from "../../services/api";
 import dayjs from "dayjs";
 import ProjectDropdown from "../../pages/Dashboard/ProjectDropdown";
 import { useFilter } from "../../context/SerpFilterContext";
@@ -44,6 +59,9 @@ import { DASHBOARD_TOOLTIPS } from "../../Constants";
 import { InfoTooltip } from "../InfoTooltip";
 import TooltipIcon from "../../pages/LLM/ToolTipIcon";
 import { CustomLegend } from "../CustomLegend";
+import SummaryToolTipIcon from "../../pages/LLM/SummaryToolTipIcon";
+import moment from "moment";
+import { Spinner } from "react-bootstrap";
 
 const FEATURE_MAP = {
   featured_snippet: "Featured Snippet",
@@ -57,6 +75,34 @@ const FEATURE_MAP = {
   discussions_forums: "Discussions & Forums",
   shopping: "Shopping",
   top_stories: "Top Stories"
+};
+
+const FEATURE_ICONS = {
+  ai_overview: Sparkles,
+  featured_snippet: Star,
+  people_also_ask: MessageCircleQuestion,
+  local_pack: MapPin,
+  app_pack: Smartphone,
+  video_pack: PlayCircle,
+  image_pack: Image,
+  short_videos: Film,
+  discussions_forums: MessagesSquare,
+  shopping: ShoppingCart,
+  top_stories: Newspaper
+};
+
+const FEATURE_COLORS = {
+  "AI Overview": "#0ea5e9",          // sky blue
+  "People Also Ask": "#8b5cf6",      // violet
+  "Featured Snippet": "#6366f1",     // indigo
+  "Local Pack": "#10b981",           // emerald
+  "Video Pack": "#f59e0b",            // amber
+  "App Pack": "#22c55e",              // green
+  "Image Pack": "#a78bfa",            // purple
+  "Short Videos": "#60a5fa",          // blue
+  "Discussions & Forums": "#64748b", // slate
+  "Shopping": "#ec4899",              // pink
+  "Top Stories": "#ef4444"            // red
 };
 
 
@@ -83,6 +129,9 @@ export function SummaryDashboard() {
   const [rankingTrendData, setRankingTrendData] = useState([]);
   const [featureTrends, setFeatureTrends] = useState([]);
   const { filter, setFilter } = useFilter();
+  const [sovData, setSovData] = useState([]);
+  const [columns, setColumns] = useState([]);
+  const [dateRange, setDateRange] = useState([]);
 
   // Load user projects
   useEffect(() => {
@@ -146,6 +195,7 @@ export function SummaryDashboard() {
       try {
         const res = await getSerpFeatureSummary(filter);
         const data = res?.data;
+        setDateRange(data.dateRange)
 
         const featureArray = Object.entries(data?.features || {}).map(
           ([feature, values]) => ({
@@ -199,35 +249,6 @@ export function SummaryDashboard() {
     fetchData();
   }, [filter]);
 
-  // // Fetch dashboard data whenever the project or dates change
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (!filter.project) return;
-  //     setLoading(true)
-  //     try {
-  //       const res = await getVisibilityTrend(filter);
-  //       const data = res?.data;
-  //       console.log(data, "visibility trend data")
-  //       const chartData = data.map((item) => ({
-  //         ...item,
-  //         top1: item.rankDistribution?.top1 || 0,
-  //         top2_3: item.rankDistribution?.top2_3 || 0,
-  //         top4_5: item.rankDistribution?.top4_5 || 0,
-  //         top6_10: item.rankDistribution?.top6_10 || 0,
-  //         outOf10: item.rankDistribution?.outOf10 || 0,
-  //       }));
-  //       setRankingTrendData(data.data || []);
-
-  //     } catch (err) {
-  //       console.error(err);
-  //     } finally {
-  //       setLoading(false)
-  //     }
-  //   };
-  //   fetchData();
-  // }, [filter]);
-
-  // Fetch visibility + ranking distribution trend
   // Fetch visibility + ranking distribution trend
   useEffect(() => {
     const fetchData = async () => {
@@ -260,7 +281,57 @@ export function SummaryDashboard() {
     fetchData();
   }, [filter.project]);
 
+  // SOV Dashboard
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!filter.project) return;
 
+      setLoading(true);
+      try {
+        const res = await getSovDashboard(filter);
+        const response = res?.data || [];
+        const { data: transformedData, uniqueDates } = response;
+
+        setSovData(transformedData);
+        generateColumns(uniqueDates);
+
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [filter.project]);
+
+  const generateColumns = (uniqueDates) => {
+    const dynamicColumns = [
+      {
+        title: "Rank Group",
+        dataIndex: "rankGroup",
+        key: "rankGroup",
+        width: 180,
+        align: "left",
+      },
+      ...uniqueDates.map((date) => ({
+        title: (
+          <div style={{ textAlign: "center" }}>
+            {moment(date).format("DD MMM, YYYY")}
+          </div>
+        ),
+        key: date,
+        children: [
+          { title: "KW", dataIndex: `${date}_keywordCount`, key: `${date}_keywordCount`, width: 100, align: "center" },
+          { title: "SV", dataIndex: `${date}_searchVolume`, key: `${date}_searchVolume`, width: 100, align: "center" },
+          {
+            title: "SOV(%)", dataIndex: `${date}_sov`, key: `${date}_sov`, width: 100, align: "center"
+          },
+        ],
+      })),
+    ];
+    setColumns(dynamicColumns);
+  };
 
   // helper
   const getCoveragePercent = (f) => {
@@ -274,11 +345,6 @@ export function SummaryDashboard() {
     );
   }, [serpFeatures]);
 
-  // sort once
-  // const sortedFeatures = [...serpFeatures].sort(
-  //   (a, b) => getCoveragePercent(b) - getCoveragePercent(a)
-  // );
-
 
   const getFeatureTrend = (featureKey) => {
     if (!Array.isArray(featureTrends)) return null;
@@ -287,14 +353,19 @@ export function SummaryDashboard() {
 
   return (
     <div className="">
+      <div className="date-data-info">
+        <p style={{ color: "red" }}>Showing comparsion from {dateRange.startDate} to {dateRange.endDate}</p>
+      </div>
+
       <div className="submit-dash flex-wrap">
+
         <KPICard
           title="All Keywords"
           tooltipTitle={DASHBOARD_TOOLTIPS.allKeywords}
           value={totalKeywords.value}
           change={totalKeywords.change}
           trend={totalKeywords.trend}
-          icon={Search}
+          icon={Hash}
           iconColor="text-blue-600"
         />
 
@@ -304,45 +375,50 @@ export function SummaryDashboard() {
           value={withoutChangesKeywords.value}
           change={withoutChangesKeywords.change}
           trend={withoutChangesKeywords.trend}
-          icon={Search}
-          iconColor="text-blue-600"
+          icon={MinusCircle}
+          iconColor="text-gray-600"
         />
+
         <KPICard
           title="Dropped"
           tooltipTitle={DASHBOARD_TOOLTIPS.droppedKeywords}
           value={droppedKeywords.value}
           change={droppedKeywords.change}
           trend={droppedKeywords.trend}
-          icon={Search}
-          iconColor="text-blue-600"
+          icon={ArrowDownCircle}
+          iconColor="text-orange-600"
         />
+
         <KPICard
           title="Lost"
           tooltipTitle={DASHBOARD_TOOLTIPS.lostKeywords}
           value={lostKeywords.value}
           change={lostKeywords.change}
           trend={lostKeywords.trend}
-          icon={Search}
-          iconColor="text-blue-600"
+          icon={XCircle}
+          iconColor="text-red-600"
         />
+
         <KPICard
           title="Raised"
           tooltipTitle={DASHBOARD_TOOLTIPS.raisedKeywords}
           value={raisedKeywords.value}
           change={raisedKeywords.change}
           trend={raisedKeywords.trend}
-          icon={Search}
-          iconColor="text-blue-600"
+          icon={ArrowUpCircle}
+          iconColor="text-green-600"
         />
+
         <KPICard
           title="New Keywords"
           tooltipTitle={DASHBOARD_TOOLTIPS.newKeywords}
           value={newKeywords.value}
           change={newKeywords.change}
           trend={newKeywords.trend}
-          icon={Search}
-          iconColor="text-blue-600"
+          icon={PlusCircle}
+          iconColor="text-emerald-600"
         />
+
         <KPICard
           title="Average Position"
           tooltipTitle={DASHBOARD_TOOLTIPS.averagePosition}
@@ -350,17 +426,19 @@ export function SummaryDashboard() {
           change={averagePosition.change}
           trend={averagePosition.trend}
           icon={TrendingUp}
-          iconColor="text-green-600"
+          iconColor="text-indigo-600"
         />
+
         <KPICard
-          title="SERP Feature Coverage"
+          title="Features Coverage"
           tooltipTitle={DASHBOARD_TOOLTIPS.serpFeatureCoverage}
           value={`${featureCoverage}%`}
           change={12}
           trend="up"
-          icon={Star}
+          icon={Layers}
           iconColor="text-yellow-600"
         />
+
         <KPICard
           tooltipTitle={DASHBOARD_TOOLTIPS.aiVisibilityScore}
           title="AI Visibility Score"
@@ -370,6 +448,7 @@ export function SummaryDashboard() {
           icon={Sparkles}
           iconColor="text-purple-600"
         />
+
       </div>
 
       {/* Ranking Trend Chart */}
@@ -377,34 +456,6 @@ export function SummaryDashboard() {
         <h3 className="text-lg font-semibold text-gray-900 fw-700 mb-25">
           Ranking Trend
         </h3>
-
-        {/* <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={rankingTrendData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis yAxisId="left" orientation="left" stroke="#3b82f6" />
-            <YAxis yAxisId="right" orientation="right" stroke="#10b981" />
-            <Tooltip />
-            <Legend content={<CustomLegend tooltipTitle={DASHBOARD_TOOLTIPS.rankingTrendVisibility} />} />
-            <Line
-              yAxisId="left"
-              type="monotone"
-              dataKey="avgPosition"
-              stroke="#3b82f6"
-              strokeWidth={2}
-              name="Avg Position"
-            />
-            <Line
-              yAxisId="right"
-              type="monotone"
-              dataKey="visibility"
-              stroke="#10b981"
-              strokeWidth={2}
-              name="Visibility %"
-            />
-          </LineChart>
-        </ResponsiveContainer> */}
-
         <ResponsiveContainer width="100%" height={350}>
           <ComposedChart data={rankingTrendData}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -438,9 +489,10 @@ export function SummaryDashboard() {
               yAxisId="bar"
               dataKey="top1"
               stackId="rank"
-              fill="#16a34a"
+              fill="#059669"
               name="Top 1"
             />
+
             <Bar
               yAxisId="bar"
               dataKey="top2_3"
@@ -448,6 +500,7 @@ export function SummaryDashboard() {
               fill="#22c55e"
               name="Top 2-3"
             />
+
             <Bar
               yAxisId="bar"
               dataKey="top4_5"
@@ -455,6 +508,7 @@ export function SummaryDashboard() {
               fill="#3b82f6"
               name="Top 4-5"
             />
+
             <Bar
               yAxisId="bar"
               dataKey="top6_10"
@@ -462,6 +516,7 @@ export function SummaryDashboard() {
               fill="#f59e0b"
               name="Top 6-10"
             />
+
             <Bar
               yAxisId="bar"
               dataKey="outOf10"
@@ -469,6 +524,7 @@ export function SummaryDashboard() {
               fill="#ef4444"
               name="> 10"
             />
+
 
             {/* ===== LINES ===== */}
             <Line
@@ -497,9 +553,18 @@ export function SummaryDashboard() {
       <div className="dis-flex mb-25">
         {/* SERP Feature Coverage */}
         <Card className="chart-div pad-15 round-10 pad-20 bg-white">
-          <h3 className="text-lg font-semibold text-gray-900 mb-25">
-            SERP Feature Coverage
-          </h3>
+          <div className="flex">
+            <h3 className="text-lg font-semibold text-gray-900 mb-25 d-flex me-4">
+              SERP Feature Coverage
+              <span className="ms-4">
+                <SummaryToolTipIcon
+                  tooltipTitle={DASHBOARD_TOOLTIPS.featureCoverage}
+                />
+              </span>
+            </h3>
+
+          </div>
+
           <div className="space-y-3">
             {sortedFeatures.map((feature) => (
               <div
@@ -509,7 +574,13 @@ export function SummaryDashboard() {
                 {/* LEFT SIDE */}
                 <div className="dis-flex align-items-center">
                   <div className="start-lft">
-                    <Star className="w-5 h-5 text-blue-600" />
+                    {/* <Star className="w-5 h-5 text-blue-600" /> */}
+
+                    {(() => {
+                      const Icon = FEATURE_ICONS[feature.feature] || Star;
+                      return <Icon className="w-5 h-5 text-blue-600" />;
+                    })()}
+
                   </div>
 
                   <div className="start-rght">
@@ -555,8 +626,13 @@ export function SummaryDashboard() {
 
         {/* SERP Feature Distribution */}
         <Card className="chart-div pad-15 round-10 pad-20 bg-white">
-          <h3 className="text-lg font-semibold text-gray-900 mb-25">
-            Feature Distribution
+          <h3 className="text-lg font-semibold text-gray-900 mb-25 d-flex me-4">
+            Features Distribution
+            <span className="ms-4">
+              <SummaryToolTipIcon
+                tooltipTitle={DASHBOARD_TOOLTIPS.featureDistribution}
+              />
+            </span>
           </h3>
           <ResponsiveContainer width="100%" height={280}>
             <PieChart>
@@ -565,18 +641,47 @@ export function SummaryDashboard() {
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                outerRadius={80}
+                outerRadius={95}
                 fill="#8884d8"
                 dataKey="value"
-                label={({ name, percent }) =>
-                  `${name} ${(percent * 100).toFixed(0)}%`
-                }
+                // label={({ name, percent }) =>
+                //   `${name} ${(percent * 100).toFixed(0)}%`
+                // }
+                label={false}
               >
-                {serpFeatureDistribution.map((entry, index) => (
+                {/* {serpFeatureDistribution.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
+                ))} */}
+
+                {serpDistribution.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={FEATURE_COLORS[entry.name] || "#94a3b8"}
+                  />
                 ))}
+
               </Pie>
+
               <Tooltip />
+              {/* <Legend layout="vertical" align="right" verticalAlign="middle" /> */}
+              <Legend
+                layout="vertical"
+                align="right"
+                verticalAlign="middle"
+                formatter={(value, entry) => {
+                  const total = serpDistribution.reduce(
+                    (sum, item) => sum + item.value,
+                    0
+                  );
+
+                  const percent = total
+                    ? ((entry.payload.value / total) * 100).toFixed(0)
+                    : 0;
+
+                  return `${value} (${percent}%)`;
+                }}
+              />
+
             </PieChart>
           </ResponsiveContainer>
         </Card>
@@ -685,6 +790,36 @@ export function SummaryDashboard() {
           })}
         </div>
       </Card> */}
+
+      {/* sov dashoard */}
+      {loading ? (
+        <div className="text-center p-4"><Spinner animation="border" /></div>
+      ) : (
+        <div className="table-wrapper mt-12">
+
+          <div className="row gy-3 gx-3 align-items-end">
+            <div className="col-auto sov-filter">
+              <span>SOV Dashboard:</span>
+              <select
+                id="brandSelect"
+                className="form-select"
+                value=""
+              >
+                <option value="">bajajfinserv.in</option>
+              </select>
+            </div>
+          </div>
+
+          <Table
+            className="custom-table"
+            rowKey="rankGroup"
+            columns={columns}
+            dataSource={sovData}
+            pagination={false}
+            scroll={{ x: "max-content" }}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 export const DASHBOARD_TOOLTIPS = {
 
-  allKeywords: `
+    allKeywords: `
 Total unique keywords that have at least one ranking record
 for the selected project and snapshot date.
 
@@ -9,7 +9,7 @@ COUNT(DISTINCT keyword)
 WHERE created_at = LatestDay
 `,
 
-  withoutChanges: `
+    withoutChanges: `
 Keywords whose rank position did NOT change
 between previous snapshot and latest snapshot.
 
@@ -17,7 +17,7 @@ Formula:
 latestRank === prevRank
 `,
 
-  raisedKeywords: `
+    raisedKeywords: `
 Keywords that improved in ranking.
 
 Formula:
@@ -25,14 +25,14 @@ latestRank < prevRank
 (lower number = better rank)
 `,
 
-  droppedKeywords: `
+    droppedKeywords: `
 Keywords that declined in ranking.
 
 Formula:
 latestRank > prevRank
 `,
 
-  newKeywords: `
+    newKeywords: `
 Keywords that appear in the latest snapshot
 but did NOT exist in previous snapshot.
 
@@ -40,7 +40,7 @@ Formula:
 latestRank !== null AND prevRank === null
 `,
 
-  lostKeywords: `
+    lostKeywords: `
 Keywords that existed in previous snapshot
 but do NOT appear in latest snapshot.
 
@@ -48,7 +48,7 @@ Formula:
 latestRank === null AND prevRank !== null
 `,
 
-  averagePosition: `
+    averagePosition: `
 Average of the best ranking position of each keyword
 for your own domain.
 
@@ -57,7 +57,7 @@ AVG( MIN(rank_group per keyword) )
 WHERE domain = your site
 `,
 
-  serpFeatureCoverage: `
+    serpFeatureCoverage: `
 Overall coverage of all SERP features.
 
 Formula:
@@ -65,7 +65,7 @@ Formula:
  total opportunity keywords across features) × 100
 `,
 
-  aiVisibilityScore: `
+    aiVisibilityScore: `
 Visibility inside Google AI Overview feature.
 
 Formula:
@@ -73,7 +73,7 @@ Formula:
 for AI Overview
 `,
 
-  rankingTrendAvgPos: `
+    rankingTrendAvgPos: `
 Daily average position of your best ranking
 for each keyword.
 
@@ -81,7 +81,7 @@ Formula per day:
 AVG(bestRank)
 `,
 
-  rankingTrendVisibility: `
+    rankingTrendVisibility: `
 Percentage of keywords ranking for your domain
 on that day.
 
@@ -89,7 +89,7 @@ Formula per day:
 (rankedKeywords ÷ totalKeywords) × 100
 `,
 
-  featureOpportunity: `
+    featureOpportunity: `
 Number of keywords where this SERP feature
 exists in Google results.
 
@@ -97,7 +97,7 @@ Formula:
 COUNT(DISTINCT keyword)
 `,
 
-  featureRanked: `
+    featureRanked: `
 Number of keywords where YOUR site
 owns this SERP feature.
 
@@ -105,8 +105,15 @@ Formula:
 COUNT(keyword WHERE isOwnedByProject = true)
 `,
 
-  featureCoverage: `
+    featureCoverage: `
 Coverage for this SERP feature.
+
+Formula:
+(ranked_keywords ÷ opportunity_keywords) × 100
+`,
+
+    featureDistribution: `
+Distribution for this SERP feature.
 
 Formula:
 (ranked_keywords ÷ opportunity_keywords) × 100

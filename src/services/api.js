@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// export const API_BASE_URL = "http://localhost:5000";
+export const API_BASE_URL = "http://localhost:5000";
 // export const API_BASE_URL = "http://15.206.172.167";
 // const API_BASE_URL = "https://rank-tracker.techmagnate.com";
 
@@ -8,7 +8,7 @@ import axios from "axios";
 
 // very new api
 // export const API_BASE_URL = "http://13.202.201.123";
-export const API_BASE_URL = "http://rank.techmagnate.in";
+// export const API_BASE_URL = "http://rank.techmagnate.in";
 
 const getToken = () => {
   return localStorage.getItem("token");
@@ -1231,6 +1231,14 @@ export const getVisibilityTrend = (params) => {
 export const getKeywordRankingTable = (params, page, limit, searchTerm = "", bucket = "") => {
   return axios.get(
     `${API_BASE_URL}/api/summary/get-keyword-ranking-table?page=${page}&limit=${limit}&searchTerm=${searchTerm}&bucket=${bucket}`,
+    { params }
+  );
+};
+
+// keyword summary sov dashboard
+export const getSovDashboard = (params, page, limit, searchTerm = "", bucket = "") => {
+  return axios.get(
+    `${API_BASE_URL}/api/summary/get-sov-dashboard?page=${page}&limit=${limit}&searchTerm=${searchTerm}&bucket=${bucket}`,
     { params }
   );
 };

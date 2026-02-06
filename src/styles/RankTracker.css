@@ -30,6 +30,10 @@
   background-color: #f8fafc; /* very light gray/blue */
   color: #333;
   font-weight: 600;
+  border-right: 1px solid #f0f0f0;
+}
+.custom-table .ant-table-thead > tr > th:first-child {
+    vertical-align: middle;
 }
 
 /* Ensure the Search inputs and labels stack nicely on small screens */

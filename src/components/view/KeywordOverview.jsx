@@ -9,6 +9,13 @@ import {
   ArrowUpDown,
   ChevronDown,
   ChevronUp,
+  MessageCircleQuestion,
+  Smartphone,
+  PlayCircle,
+  Film,
+  MessagesSquare,
+  Newspaper,
+  ShoppingCart,
 } from 'lucide-react';
 
 import { Badge } from 'antd';
@@ -29,6 +36,20 @@ const getDifficultyVariant = (difficulty) => {
   if (difficulty === "Medium") return "default";
   if (difficulty === "Low") return "secondary";
   return "secondary";
+};
+
+const FEATURE_MAP = {
+  featured_snippet: "Featured Snippet",
+  people_also_ask: "People Also Ask",
+  ai_overview: "AI Overview",
+  local_pack: "Local Pack",
+  app_pack: "App Pack",
+  video_pack: "Video Pack",
+  image_pack: "Image Pack",
+  short_videos: "Short Videos",
+  discussions_forums: "Discussions & Forums",
+  shopping: "Shopping",
+  top_stories: "Top Stories"
 };
 
 export function KeywordOverview() {
@@ -115,18 +136,58 @@ export function KeywordOverview() {
     fetchData();
   }, [filter, searchTerm, bucket, paginationData.page, paginationData.limit]);
 
+  // const getFeatureIcon = (feature) => {
+  //   if (feature.includes("people_also_ask")) return <Star className="w-4 h-4 text-yellow-600" />;
+  //   if (feature.includes("video_pack")) return <Sparkles className="w-4 h-4 text-purple-600" />;
+  //   if (feature.includes("image_pack")) return <Video className="w-4 h-4 text-red-600" />;
+  //   if (feature.includes("short_videos")) return <ImageIcon className="w-4 h-4 text-blue-600" />;
+  //   if (feature.includes("discussions_forums")) return <MapPin className="w-4 h-4 text-green-600" />;
+  //   if (feature.includes("shopping")) return <MapPin className="w-4 h-4 text-green-600" />;
+  //   if (feature.includes("top_stories")) return <MapPin className="w-4 h-4 text-green-600" />;
+  //   if (feature.includes("ai_overview")) return <MapPin className="w-4 h-4 text-green-600" />;
+  //   if (feature.includes('featured_snippet')) return <MapPin className="w-4 h-4 text-green-600" />;
+  //   return <Star className="w-4 h-4 text-gray-600" />;
+  // };
+
   const getFeatureIcon = (feature) => {
-    if (feature.includes("people_also_ask")) return <Star className="w-4 h-4 text-yellow-600" />;
-    if (feature.includes("video_pack")) return <Sparkles className="w-4 h-4 text-purple-600" />;
-    if (feature.includes("image_pack")) return <Video className="w-4 h-4 text-red-600" />;
-    if (feature.includes("short_videos")) return <ImageIcon className="w-4 h-4 text-blue-600" />;
-    if (feature.includes("discussions_forums")) return <MapPin className="w-4 h-4 text-green-600" />;
-    if (feature.includes("shopping")) return <MapPin className="w-4 h-4 text-green-600" />;
-    if (feature.includes("top_stories")) return <MapPin className="w-4 h-4 text-green-600" />;
-    if (feature.includes("ai_overview")) return <MapPin className="w-4 h-4 text-green-600" />;
-    if (feature.includes('featured_snippet')) return <MapPin className="w-4 h-4 text-green-600" />;
-    return <Star className="w-4 h-4 text-gray-600" />;
+    if (!feature) return <Star className="w-4 h-4 text-gray-500" />;
+
+    if (feature.includes("ai_overview"))
+      return <Sparkles className="w-4 h-4 text-purple-600" />;
+
+    if (feature.includes("featured_snippet"))
+      return <Star className="w-4 h-4 text-yellow-600" />;
+
+    if (feature.includes("people_also_ask"))
+      return <MessageCircleQuestion className="w-4 h-4 text-indigo-600" />;
+
+    if (feature.includes("local_pack"))
+      return <MapPin className="w-4 h-4 text-green-600" />;
+
+    if (feature.includes("app_pack"))
+      return <Smartphone className="w-4 h-4 text-emerald-600" />;
+
+    if (feature.includes("video_pack"))
+      return <PlayCircle className="w-4 h-4 text-red-600" />;
+
+    if (feature.includes("image_pack"))
+      return <ImageIcon className="w-4 h-4 text-blue-600" />;
+
+    if (feature.includes("short_videos"))
+      return <Film className="w-4 h-4 text-pink-600" />;
+
+    if (feature.includes("discussions_forums"))
+      return <MessagesSquare className="w-4 h-4 text-slate-600" />;
+
+    if (feature.includes("shopping"))
+      return <ShoppingCart className="w-4 h-4 text-orange-600" />;
+
+    if (feature.includes("top_stories"))
+      return <Newspaper className="w-4 h-4 text-cyan-600" />;
+
+    return <Star className="w-4 h-4 text-gray-500" />;
   };
+
 
   const handleSort = (field) => {
     if (sortField === field) {
@@ -216,7 +277,10 @@ export function KeywordOverview() {
 
         </div>
       </Card>
-
+      <div className="download-btns">
+        <button className="btn btn-primary">Export</button>
+        <button className="btn btn-primary">Export Raw</button>
+      </div>
       {/* Keywords Table */}
       {loading ? (
         <Card className="p-10">
@@ -232,7 +296,7 @@ export function KeywordOverview() {
         </Card>
       ) : (
         <Card className="kew-table">
-          <Table>
+          <Table className="bg-white">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-12"></TableHead>
@@ -317,7 +381,7 @@ export function KeywordOverview() {
                     <TableCell>
                       <div className="flex gap-1 flex-wrap">
                         {keyword?.serp_features?.map((feature, idx) => (
-                          <div key={idx} className="inline-flex items-center">
+                          <div title={feature} key={idx} className="inline-flex items-center">
                             {getFeatureIcon(feature)}
                           </div>
                         ))}
@@ -334,66 +398,30 @@ export function KeywordOverview() {
                       </span>
                     </TableCell>
                     <TableCell>
-                      {/* <Badge
-                      variant={keyword.difficulty > "Low" ? 'destructive' : keyword.difficulty > "Medium" ? 'default' : 'secondary'}
-                      className="text-xs"
-                    >
-                      {keyword?.difficulty_index || 0}
-                    </Badge> */}
-
                       <Badge
                         variant={getDifficultyVariant(keyword?.difficulty)}
-                        className="text-xs"
+                        className={`text-xs ${keyword?.difficulty === "HIGH" ? "bg-red-100 text-red-800" : keyword?.difficulty === "MEDIUM" ? "bg-yellow-100 text-yellow-800" : "bg-green-100 text-green-800"}`}
                       >
                         {keyword?.difficulty_index ?? null}
                       </Badge>
                     </TableCell>
                   </TableRow>
 
-                  {/* {expandedRow === keyword.keyword && (
-                  <TableRow>
-                    <TableCell colSpan={8} className="bg-gray-50">
-                      <div className="pad-20">
-                        <h4 className="font-semibold text-gray-900 mb-3">SERP Preview</h4>
-                        <div className="pad-20 round-10 bg-white">
-                          <div className="space-y-3">
-                            <div className="text1">
-                              <p className="text-gray-600">Ranking URL:</p>
-                              <p className="text-blue-600 font-medium">{keyword.keyword}</p>
-                            </div>
-                            <div className="text2">
-                              <p className="text-gray-600 mb-2">Active SERP Features:</p>
-                              <div className="flex flex-wrap gap-2">
-                                {keyword.keyword.map((feature, idx) => (
-                                  <Badge key={idx} variant="outline" className="gap-1">
-                                    {getFeatureIcon(feature)}
-                                    {feature}
-                                  </Badge>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                )} */}
-
                   {expandedRow === keyword.keyword && (
                     <TableRow>
                       <TableCell colSpan={8} className="bg-gray-50">
-                        <div className="pad-20">
+                        <div className="pad-20 inner-table-area">
                           <h4 className="font-semibold text-gray-900 mb-3">
                             SERP Preview
                           </h4>
 
-                          <div className="pad-20 round-10 bg-white space-y-3">
+                          <div className="pad-20 round-10 space-y-3">
 
                             {/* Ranking URL */}
-                            <div>
+                            <div className="rank-url">
                               <p className="text-gray-600">Ranking URL:</p>
                               <p className="text-blue-600 font-medium">
-                                {keyword?.urls?.[0] || "N/A"}
+                                <a target="_blank" href={`${keyword?.urls?.[0] || "N/A"}`}>{keyword?.urls?.[0] || "N/A"}</a>
                               </p>
                             </div>
 
@@ -404,11 +432,12 @@ export function KeywordOverview() {
                               </p>
 
                               <div className="flex flex-wrap gap-2">
+                              
                                 {keyword?.serp_features?.map((feature, idx) => (
-                                  <Badge key={idx} variant="outline" className="gap-1">
+                                  <div title={feature} key={idx} className="inline-flex items-center feature-badge">
                                     {getFeatureIcon(feature)}
-                                    {feature}
-                                  </Badge>
+                                    <span>{FEATURE_MAP[feature]}</span>
+                                  </div>
                                 ))}
                               </div>
                             </div>
@@ -423,15 +452,16 @@ export function KeywordOverview() {
               ))}
             </TableBody>
           </Table>
-          <Pagination
-            currentPage={paginationData.page}
-            totalItems={paginationData.total}
-            itemsPerPage={paginationData.limit}
-            onPageChange={handlePageChange}
-            onItemsPerPageChange={handleItemsPerPageChange}
-          />
+
         </Card>
       )}
+      <Pagination
+        currentPage={paginationData.page}
+        totalItems={paginationData.total}
+        itemsPerPage={paginationData.limit}
+        onPageChange={handlePageChange}
+        onItemsPerPageChange={handleItemsPerPageChange}
+      />
     </div>
   );
 }

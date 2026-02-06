@@ -1,9 +1,9 @@
 import React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-const SummaryToolTipIcon = ({ tooltipTitle, size = 13, placement = "top", className = "" }) => {
+const SummaryToolTipIcon = ({ tooltipTitle, size = 13, placement = "bottom", className = "" }) => {
   const tooltipStyle = {
-    color: "#fff",               // white text
+    // color: "#fff",               // white text
     textAlign: "left",
     fontSize: "0.9rem",          // slightly larger than default
   };
@@ -11,7 +11,9 @@ const SummaryToolTipIcon = ({ tooltipTitle, size = 13, placement = "top", classN
     <OverlayTrigger
       placement={placement}
       overlay={
-        <Tooltip id={`tooltip-${tooltipTitle}`}>
+        <Tooltip id={`tooltip-${tooltipTitle}`}
+          className="custom-grey-tooltip"
+        >
           <div style={{ whiteSpace: "pre-wrap", maxWidth: "200px", ...tooltipStyle }}>{tooltipTitle || ""}</div>
         </Tooltip>
       }

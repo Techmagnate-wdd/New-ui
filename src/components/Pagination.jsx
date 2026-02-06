@@ -32,7 +32,7 @@ export function Pagination({
   const pageNumbers = getPageNumbers();
 
   return (
-    <div className="d-flex justify-content-between align-items-center p-3 border-top">
+    <div className="d-flex justify-content-between align-items-center p-3 round-10 mt-5 bg-white">
 
       {/* Rows per page */}
       <div className="d-flex align-items-center gap-2">
